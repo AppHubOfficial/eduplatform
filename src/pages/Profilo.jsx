@@ -22,9 +22,10 @@ function Profilo() {
 
   const [formData, setFormData] = useState({
     nome: "",
+    cognome: "",
     email: "",
     tel: "",
-    type: "",
+    role: "",
     university: "",
     faculty: "",
     distance: "",
@@ -33,6 +34,10 @@ function Profilo() {
     note: "",
     ripetizioni: false,
   });
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData])
 
   const handleClose = (event, reason) => {
     // if (reason === 'clickaway') {
@@ -124,9 +129,10 @@ function Profilo() {
           console.log(userData)
           setFormData({
             nome: userData.nome || "",
+            cognome: userData.cognome || "",
             email: userData.email || "",
             tel: userData.tel || "",
-            type: userData.type || "",
+            role: userData.role || "",
             university: userData.university || "",
             faculty: userData.faculty || "",
             distance: userData.distance || "",
@@ -160,22 +166,10 @@ function Profilo() {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        height: '93vh',
         gap: 3,
-        backgroundColor: '#f5f5f5',
         padding: '20px',
-        marginBottom: "50px",
-        width: "90%",
-        ...(profileData?.type === "studente" && {
-          position: 'relative',
-          top: '70px',
-          marginTop: '210px',
-          marginBottom: "450px !important",
-        }),
-        ...(profileData?.type === "insegnante" && {
-          marginTop: '30px !important',
-          marginBottom: '90px !important'
-        }),
+        top: '0px',
+        position: 'relative',
       }}
     >
       {errorMessage && (
@@ -233,6 +227,16 @@ function Profilo() {
                     </TableCell>
                   </TableRow>
                   <TableRow>
+                    <TableCell>Cognome</TableCell>
+                    <TableCell>
+                      <TextField
+                        name="cognome"
+                        onChange={handleInputChange}
+                        value={formData.cognome}
+                      />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
                     <TableCell>Email</TableCell>
                     <TableCell>
                       <TextField disabled value={formData.email} />
@@ -251,7 +255,7 @@ function Profilo() {
                   <TableRow>
                     <TableCell>Ruolo</TableCell>
                     <TableCell>
-                      <TextField disabled value={formData.type} />
+                      <TextField disabled value={formData.role} />
                     </TableCell>
                   </TableRow>
                   <TableRow>
@@ -265,7 +269,7 @@ function Profilo() {
                     </TableCell>
                   </TableRow>
 
-                  {profileData.type === "studente" && (
+                  {profileData.role === "studente" && (
                     <>
                       <TableRow>
                         <TableCell>Università</TableCell>
@@ -346,7 +350,17 @@ function Profilo() {
                   <TableRow>
                     <TableCell>Account creato il</TableCell>
                     <TableCell>
-                      <TextField disabled value={new Date(profileData.created_at).toLocaleDateString('it-IT')} />
+                      <TextField
+                        disabled
+                        value={new Date(profileData.created_at).toLocaleString("it-IT", {
+                          year: "numeric",
+                          month: "2-digit",
+                          day: "2-digit",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          second: "2-digit"
+                        })}
+                      />
                     </TableCell>
                   </TableRow>
                 </TableBody>

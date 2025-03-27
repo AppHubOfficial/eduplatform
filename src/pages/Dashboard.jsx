@@ -6,6 +6,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import '../assets/styles/Dashboard.css';
 import SearchComponent from '../components/SearchComponent';
 import TableDataComponent from '../components/TableDataComponent';
+import HomeEvents from '../components/HomeEvents';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -59,7 +60,7 @@ function Dashboard() {
 
     if (selectedRole && selectedRole !== "all") {
       filteredUsersData = filteredUsersData.filter(user => {
-        return user.type.includes(selectedRole);
+        return user.role.includes(selectedRole);
       });
     }
 
@@ -117,7 +118,7 @@ function Dashboard() {
           const data = await response.json();
 
           //console.log("data in dashboard: " + data)
-          if (data[0]?.type === "insegnante") {
+          if (data[0]?.role === "insegnante") {
             console.log("Insegnante");
             fetchAllUsersData();
           }
@@ -168,6 +169,10 @@ function Dashboard() {
     }
   }, []);
 
+  useEffect(() => {
+    console.log(profileData);
+  }, [profileData])
+
   return (
     <Box
       sx={{
@@ -177,7 +182,6 @@ function Dashboard() {
         justifyContent: 'left',
         height: '93vh',
         gap: 3,
-        backgroundColor: '#f5f5f5',
         padding: '20px',
       }}
     >
@@ -196,13 +200,13 @@ function Dashboard() {
           <Typography variant="body1">
             Sei autenticato con successo come{" "}
             <Typography component="span" variant="body1" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
-              {profileData.type === "insegnante" ? "insegnante" : "studente"}
+              {profileData.role === "insegnante" ? "insegnante" : "studente"}
             </Typography>.
             Puoi gestire il tuo account qui.
           </Typography>
           <Divider />
 
-          {profileData.type === "insegnante" && (
+          {profileData.role === "insegnante" && (
             <>
               <SearchComponent
                 handleChangeRoles={handleChangeRoles}
@@ -222,6 +226,10 @@ function Dashboard() {
         )
 
       )}
+
+      <Box sx={{ position: "relative", top: "300px" }}>
+        <HomeEvents />
+      </Box>
     </Box>
   );
 }

@@ -14,12 +14,11 @@ function Impostazioni() {
         justifyContent: 'center',
         height: '93vh',
         gap: 3,
-        backgroundColor: '#f5f5f5',
         padding: '20px',
       }}
     >
       <Typography variant="h4" component="h1" gutterBottom>
-        Far visualizzare impostazioni...
+        Impostazioni...
       </Typography>
     </Box>
   );

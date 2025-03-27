@@ -210,9 +210,9 @@ export default function PrenotazioneCogestione() {
 
     };
 
-    useEffect(() => {  
+    useEffect(() => {
         setDisableOraDAria(Object.values(formData).includes("Ora d'aria"));
-        console.log(formData);  
+        console.log(formData);
     }, [formData]);
 
     useEffect(() => {
@@ -259,16 +259,18 @@ export default function PrenotazioneCogestione() {
 
 
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                backgroundImage: `url(${backgroundCogestione})`,
-                height: '45vh',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-            }}
-        >
+        <>
+
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    backgroundImage: `url(${backgroundCogestione})`,
+                    height: '45vh',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                }}
+            />
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -292,15 +294,14 @@ export default function PrenotazioneCogestione() {
                 sx={{
                     maxWidth: 400,
                     mx: "auto",
-                    mt: 15,
-                    mb: 15,
+                    mt: '-380px',
+                    mb: 10,
                     p: 3,
                     boxShadow: '0px 7px 14px rgba(0, 0, 0, 0.1)',
                     padding: '65px 30px 30px 30px',
                     backgroundColor: 'white',
-                    marginBottom: '20px',
-                    marginTop: "50px !important",
-                    color: '#3e3e3e'
+                    color: '#3e3e3e',
+                    borderRadius: '8px'
                 }}
             >
                 <Typography variant="h5" align="center" sx={{ fontWeight: "bold", marginTop: "-20px", marginBottom: "30px" }}>
@@ -432,6 +433,9 @@ export default function PrenotazioneCogestione() {
                     <Typography sx={{ p: 2 }}>{popoverContent}</Typography>
                 </Popover>
             </Box>
-        </Box>
+
+
+        </>
+
     );
 }

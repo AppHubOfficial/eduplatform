@@ -21,7 +21,12 @@ function LoginComponent({ type, setLoginOpen, setLoginType }) {
 	const [activeStep, setActiveStep] = useState(0);
 
 	const handleChangeRole = (event) => {
-		setRole(event.target.value);
+		const selectedRole = event.target.value;
+		setRole(selectedRole);
+		setFormData((prev) => ({
+			...prev,
+			role: selectedRole,
+		}));
 	};
 
 	const loginAnimation = {
@@ -139,7 +144,7 @@ function LoginComponent({ type, setLoginOpen, setLoginType }) {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		console.log(formData);
+		console.log("FORM DATA: " + JSON.stringify(formData, null, 2));
 
 		if (!acceptedPrivacy && type !== 'login') {
 			setErrorMessage("Devi accettare l'informativa sulla privacy.");
@@ -155,7 +160,9 @@ function LoginComponent({ type, setLoginOpen, setLoginType }) {
 			return acc;
 		}, { type });
 
-		if (type !== "login" && type !== "insegnante") {
+		dataToSend.role = formData.role;
+
+		if (type !== "login" && role !== "insegnante") {
 			dataToSend.distance = {
 				value: distance,
 				required: true
@@ -188,6 +195,8 @@ function LoginComponent({ type, setLoginOpen, setLoginType }) {
 				credentials: 'include',
 				body: JSON.stringify(dataToSend),
 			});
+
+			console.log("DATA TO SEND: " + JSON.stringify(dataToSend, null, 2));
 
 			const data = await response.json();
 
@@ -227,7 +236,6 @@ function LoginComponent({ type, setLoginOpen, setLoginType }) {
 						borderRadius: '15px',
 						width: '400px',
 						margin: 'auto',
-						...(type === 'studente' && { height: '86vh' }),
 						boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
 						maxHeight: '80vh',
 						overflowY: 'auto',
@@ -377,7 +385,7 @@ function LoginComponent({ type, setLoginOpen, setLoginType }) {
 									type="submit"
 									style={{
 										marginTop: '30px',
-										...(type === 'studente' && { marginBottom: '20px' }),
+										...(role === 'studente' && { marginBottom: '20px' }),
 									}}
 								>
 									Invia

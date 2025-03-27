@@ -17,12 +17,12 @@ function HomeEvents() {
             sx={{
                 position: 'relative',
                 top: '-220px',
-                backgroundColor: '#e8e8e8',
+                backgroundColor: '#fbfbfb',
                 padding: '40px',
                 borderRadius: '10px',
                 width: '80%',
                 margin: '0 auto',
-                boxShadow: '0px 4px 10px rgba(0,0,0,0.1)',
+                boxShadow: '0px 7px 9px rgba(0,0,0,0.1)',
                 textAlign: 'center',
                 height: '45vh',
                 maxWidth: '900px'
@@ -52,7 +52,7 @@ function HomeEvents() {
                         }}
                         key={index}
                     >
-                        <CardContent onClick={() => navigate(event.goto)}>
+                        <CardContent onClick={() => navigate(`/${event.goto}`)}>
                             <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                                 {event.title}
                             </Typography>
