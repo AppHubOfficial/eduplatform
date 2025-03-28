@@ -19,9 +19,9 @@ function HeroSection() {
           <Typography variant="h3" sx={{ fontWeight: 'bold', mb: 2, marginTop: '-160px' }}>
             Benvenuto su EduPlatform
           </Typography>
-          <Typography variant="h6">
+            {/*<Typography variant="h6">
             Il miglior portale per rimanere aggiornato sugli eventi e attività scolastiche
-          </Typography>
+          </Typography>*/}
         </Box>
     )
 }
