@@ -304,6 +304,7 @@ export default function PrenotazioneCogestione() {
                     backgroundColor: 'white',
                     color: '#3e3e3e',
                     borderRadius: '8px'
+                    
                 }}
             >
                 <Typography variant="h5" align="center" sx={{ fontWeight: "bold", marginTop: "-20px", marginBottom: "30px" }}>
