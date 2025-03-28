@@ -75,7 +75,8 @@ export default function PrenotazioneCogestione() {
     const formFields = [
         { label: 'Nome', name: 'nome', type: 'input', required: true, classi: [1, 2, 3, 4, 5] },
         { label: 'Cognome', name: 'cognome', type: 'input', required: true, classi: [1, 2, 3, 4, 5] },
-        { label: 'Classe', name: 'classe', type: 'selectClasse', required: true, classi: [1, 2, 3, 4, 5] },
+        { label: 'Classe *', name: 'classe', type: 'selectClasse', required: true, classi: [1, 2, 3, 4, 5] },
+        { label: 'Sezione', name: 'sezione', type: 'input', required: true, classi: [1, 2, 3, 4, 5] },
 
         { label: 'Mercoledì mattina', type: 'label', classi: [1, 2, 3, 4, 5] },
         { label: 'Modulo 1', name: 'm1', ora: 'merc_mattina', type: 'selectAttivita', required: true, classi: [1, 2, 3, 4, 5] },
