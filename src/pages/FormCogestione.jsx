@@ -352,7 +352,7 @@ export default function PrenotazioneCogestione() {
                                                 onOpen={() => setOpenSelect(true)}
                                                 onClose={() => setOpenSelect(false)}
                                                 disabled={disabledFields[field.name + "Disabled"]}
-
+                                                required
                                             >
                                                 {selectFields
                                                     .filter((sel) => sel.ora.includes(field.ora))
