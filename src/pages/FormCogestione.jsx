@@ -293,6 +293,7 @@ export default function PrenotazioneCogestione() {
 
             <Box
                 sx={{
+                    width: '80%',
                     maxWidth: 400,
                     mx: "auto",
                     mt: '-380px',
