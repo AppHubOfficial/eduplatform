@@ -296,7 +296,7 @@ export default function PrenotazioneCogestione() {
                     width: '80%',
                     maxWidth: 400,
                     mx: "auto",
-                    mt: '-380px',
+                    mt: { xs: '-400px', sm: '-380px', md: '-380px' },
                     mb: 10,
                     p: 3,
                     boxShadow: '0px 7px 14px rgba(0, 0, 0, 0.1)',
