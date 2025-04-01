@@ -9,55 +9,59 @@ import HomeEvents from '../components/HomeEvents';
 import Footer from '../components/Footer'
 
 function Home() {
-  const [isLoginOpen, setLoginOpen] = useState(false);
-  const [loginType, setLoginType] = useState('');
+    const [isLoginOpen, setLoginOpen] = useState(false);
+    const [loginType, setLoginType] = useState('');
 
-  const handleOpenLogin = (type) => {
-    setLoginType(type);
-    setLoginOpen(true);
-  };
+    const handleOpenLogin = (type) => {
+        setLoginType(type);
+        setLoginOpen(true);
+    };
 
-  const handleCloseLogin = () => {
-    setLoginOpen(false);
-    setLoginType('');
-  };
+    const handleCloseLogin = () => {
+        setLoginOpen(false);
+        setLoginType('');
+    };
 
-  return (
-    <>
-      <Box
-        sx={{
-          height: '65vh',
-          display: 'flex',
-          flexDirection: 'column',
-          backgroundImage: `url(${background})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          color: '#ffffff',
-        }}
-      >
-        <Header handleCloseLogin={handleCloseLogin} handleOpenLogin={handleOpenLogin} />
-        <HeroSection />
-      </Box>
+    return (
+        <>
+            <Box
+                sx={{
+                    height: '65vh',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    backgroundImage: `url(${background})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    color: '#ffffff',
+                }}
+            >
+                <Header handleCloseLogin={handleCloseLogin} handleOpenLogin={handleOpenLogin} />
+                <HeroSection />
+            </Box>
 
-      <HomeEvents />
 
-      <Footer />
+            <Box sx={{mt: -26, mb: 15}}>
+                <HomeEvents />
+            </Box>
 
-      <Modal
-        open={isLoginOpen}
-        onClose={handleCloseLogin}
-        aria-labelledby="login-modal-title"
-        aria-describedby="login-modal-description"
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <LoginComponent type={loginType} setLoginOpen={setLoginOpen} setLoginType={setLoginType} />
-      </Modal>
-    </>
-  );
+
+            <Footer />
+
+            <Modal
+                open={isLoginOpen}
+                onClose={handleCloseLogin}
+                aria-labelledby="login-modal-title"
+                aria-describedby="login-modal-description"
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
+                <LoginComponent type={loginType} setLoginOpen={setLoginOpen} setLoginType={setLoginType} />
+            </Modal>
+        </>
+    );
 }
 
 export default Home;

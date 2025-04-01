@@ -16,7 +16,6 @@ function HomeEvents() {
         <Box
             sx={{
                 position: 'relative',
-                top: '-220px',
                 backgroundColor: '#fbfbfb',
                 padding: '40px',
                 borderRadius: '10px',

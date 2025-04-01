@@ -44,8 +44,14 @@ export default function PrenotazioneCogestione() {
     const [openSelect, setOpenSelect] = useState(false);
     const openPopover = Boolean(anchorEl);
     const popoverId = openPopover ? 'simple-popover' : undefined;
-    const classi = ["1", "2", "3", "4", "5"];
 
+    const classi = [
+        "1AE", "1AI", "1AM", "1AS", "1BI", "1BMT",
+        "2AET", "2AI", "2AM", "2AS",
+        "3AET", "3AI", "3AM", "3AS", "3BI",
+        "4AE", "4AI", "4AM", "4AS",
+        "5AEM", "5AI", "5AS"
+    ];
 
     const [formData, setFormData] = useState({
         classe: "",
@@ -73,25 +79,24 @@ export default function PrenotazioneCogestione() {
 
     ///////////////// FORM FIELDS /////////////////
     const formFields = [
-        { label: 'Nome', name: 'nome', type: 'input', required: true, classi: [1, 2, 3, 4, 5] },
-        { label: 'Cognome', name: 'cognome', type: 'input', required: true, classi: [1, 2, 3, 4, 5] },
-        { label: 'Classe *', name: 'classe', type: 'selectClasse', required: true, classi: [1, 2, 3, 4, 5] },
-        { label: 'Sezione', name: 'sezione', type: 'input', required: true, classi: [1, 2, 3, 4, 5] },
+        { label: 'Nome', name: 'nome', type: 'input', required: true },
+        { label: 'Cognome', name: 'cognome', type: 'input', required: true },
+        { label: 'Classe *', name: 'classe', type: 'selectClasse', required: true },
 
-        { label: 'Mercoledì mattina', type: 'label', classi: [1, 2, 3, 4, 5] },
-        { label: 'Modulo 1', name: 'm1', ora: 'merc_mattina', type: 'selectAttivita', required: true, classi: [1, 2, 3, 4, 5] },
-        { label: 'Modulo 2', name: 'm2', ora: 'merc_mattina', type: 'selectAttivita', required: true, classi: [1, 2, 3, 4, 5] },
-        { label: 'Modulo 3', name: 'm3', ora: 'merc_mattina', type: 'selectAttivita', required: true, classi: [1, 2, 3, 4, 5] },
+        { label: 'Mercoledì mattina', type: 'label' },
+        { label: 'Modulo 1', name: 'm1', ora: 'merc_mattina', type: 'selectAttivita', required: true },
+        { label: 'Modulo 2', name: 'm2', ora: 'merc_mattina', type: 'selectAttivita', required: true },
+        { label: 'Modulo 3', name: 'm3', ora: 'merc_mattina', type: 'selectAttivita', required: true },
 
-        { label: 'Giovedì mattina', type: 'label', classi: [1, 2, 3, 4, 5] },
-        { label: 'Modulo 1', name: 'g1', ora: 'giov_mattina', type: 'selectAttivita', required: true, classi: [1, 2, 3, 4, 5] },
-        { label: 'Modulo 2', name: 'g2', ora: 'giov_mattina', type: 'selectAttivita', required: true, classi: [1, 2, 3, 4, 5] },
-        { label: 'Modulo 3', name: 'g3', ora: 'giov_mattina', type: 'selectAttivita', required: true, classi: [1, 2, 3, 4, 5] },
+        { label: 'Giovedì mattina', type: 'label' },
+        { label: 'Modulo 1', name: 'g1', ora: 'giov_mattina', type: 'selectAttivita', required: true },
+        { label: 'Modulo 2', name: 'g2', ora: 'giov_mattina', type: 'selectAttivita', required: true },
+        { label: 'Modulo 3', name: 'g3', ora: 'giov_mattina', type: 'selectAttivita', required: true },
 
-        { label: `${["3", "4", "5"].includes(formData.classe) ? "Giovedì" : "Mercoledì"} pomeriggio`, type: 'label', classi: [1, 2, 3, 4, 5] },
-        { label: 'Modulo Pomeriggio', name: 'pomeriggio', ora: 'pomeriggio', type: 'selectAttivita', required: true, classi: [1, 2, 3, 4, 5] },
+        { label: `${["3", "4", "5"].includes(formData.classe.charAt(0)) ? "Giovedì" : "Mercoledì"} pomeriggio`, type: 'label' },
+        { label: 'Modulo Pomeriggio', name: 'pomeriggio', ora: 'pomeriggio', type: 'selectAttivita', required: true },
 
-        { label: 'Mangio a scuola (1€)', name: 'mangio_scuola', type: 'checkbox', required: false, classi: [1, 2, 3, 4, 5] },
+        { label: 'Mangio a scuola (1€)', name: 'mangio_scuola', type: 'checkbox', required: false },
     ];
 
 
@@ -213,14 +218,7 @@ export default function PrenotazioneCogestione() {
 
     useEffect(() => {
         setDisableOraDAria(Object.values(formData).includes("Ora d'aria"));
-        console.log(formData);
     }, [formData]);
-
-    useEffect(() => {
-        console.log(disableOraDAria);
-    }, [disableOraDAria]);
-
-
 
     //////////// handleSubmit ////////////
     const handleSubmit = async (e) => {
@@ -232,7 +230,7 @@ export default function PrenotazioneCogestione() {
         setIsLoading(true);
 
         try {
-            const response = await fetch(`${apiUrl}/api/users/save_data_cogestione`, {
+            const response = await fetch(`${apiUrl}/api/users/saveDataCogestione`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
@@ -242,7 +240,6 @@ export default function PrenotazioneCogestione() {
             const data = await response.json();
 
             if (response.ok) {
-                console.log("SUCCESS");
                 setIsLoading(false);
             } else {
                 console.log(data.error);
@@ -295,7 +292,7 @@ export default function PrenotazioneCogestione() {
                 sx={{
                     width: '80%',
                     maxWidth: 400,
-                    mx: "auto",
+                    mx: 'auto',
                     mt: { xs: '-340px', sm: '-380px', md: '-380px' },
                     mb: 10,
                     p: 3,
@@ -304,7 +301,6 @@ export default function PrenotazioneCogestione() {
                     backgroundColor: 'white',
                     color: '#3e3e3e',
                     borderRadius: '8px'
-                    
                 }}
             >
                 <Typography variant="h5" align="center" sx={{ fontWeight: "bold", marginTop: "-20px", marginBottom: "30px" }}>
@@ -313,7 +309,6 @@ export default function PrenotazioneCogestione() {
 
                 <Box component="form" onSubmit={handleSubmit}>
                     {formFields
-                        .filter((field) => formData.classe ? field.classi.includes(Number(formData.classe)) : true)
                         .map((field, index) => {
 
                             switch (field.type) {

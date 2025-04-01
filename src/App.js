@@ -8,44 +8,54 @@ import Profilo from './pages/Profilo.jsx';
 import Impostazioni from './pages/Impostazioni.jsx';
 import PrivacyPolicyDialog from './pages/PrivacyPolicyDialog.jsx';
 import FormCogestione from './pages/FormCogestione.jsx';
+import ManageUsers from './pages/ManageUsers.jsx';
+import ManageEvents from './pages/ManageEvents.jsx';
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-  },
-  {
-    path: "/dashboard",
-    element: <Dashboard />,
-  },
-  {
-    path: "/profilo",
-    element: <Profilo />,
-  },
-  {
-    path: "/cogestione",
-    element: <FormCogestione />,
-  },
-  {
-    path: "/impostazioni",
-    element: <Impostazioni />,
-  },
-  {
-    path: "/privacy",
-    element: <PrivacyPolicyDialog />,
-  },
-  {
-    path: "*",
-    element: <Page404 />
-  }
+    {
+        path: "/",
+        element: <Home />,
+    },
+    {
+        path: "/dashboard",
+        element: <Dashboard />,
+    },
+    {
+        path: "/profilo",
+        element: <Profilo />,
+    },
+    {
+        path: "/cogestione",
+        element: <FormCogestione />,
+    },
+    {
+        path: "/impostazioni",
+        element: <Impostazioni />,
+    },
+    {
+        path: "/privacy",
+        element: <PrivacyPolicyDialog />,
+    },
+    {
+        path: "/manage-users",
+        element: <ManageUsers />,
+    },
+    {
+        path: "/manage-events",
+        element: <ManageEvents />,
+    },
+    {
+        path: "*",
+        element: <Page404 />
+    }
 ]);
 
 function App() {
-  return (
+    return (
 
-    <RouterProvider router={router} />
+        <RouterProvider router={router} />
 
-  );
+    );
 }
 
 export default App;

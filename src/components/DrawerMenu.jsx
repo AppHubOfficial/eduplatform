@@ -1,20 +1,18 @@
 import React from 'react';
 import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider } from '@mui/material';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import SettingsIcon from '@mui/icons-material/Settings';
 import { useNavigate } from 'react-router-dom';
+import HomeIcon from '@mui/icons-material/Home';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 
-const DrawerMenu = ({ open, toggleDrawer, handleLogout }) => {
+const DrawerMenu = ({ open, toggleDrawer, handleLogout, listMenu }) => {
     const navigate = useNavigate();
 
     const DrawerList = (
         <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
             <List>
-                {[ 
-                    { text: 'Profilo', icon: <AccountBoxIcon />, path: '/profilo' },
-                    //{ text: 'Impostazioni', icon: <SettingsIcon />, path: '/impostazioni' }
-                ].map(({ text, icon, path }) => (
+                {listMenu.map(({ text, icon, path }) => (
                     <ListItem key={text} disablePadding>
                         <ListItemButton onClick={() => navigate(path)}>
                             <ListItemIcon>

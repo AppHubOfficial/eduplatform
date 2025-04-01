@@ -144,8 +144,6 @@ function LoginComponent({ type, setLoginOpen, setLoginType }) {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		console.log("FORM DATA: " + JSON.stringify(formData, null, 2));
-
 		if (!acceptedPrivacy && type !== 'login') {
 			setErrorMessage("Devi accettare l'informativa sulla privacy.");
 			console.log(acceptedPrivacy)
@@ -195,8 +193,6 @@ function LoginComponent({ type, setLoginOpen, setLoginType }) {
 				credentials: 'include',
 				body: JSON.stringify(dataToSend),
 			});
-
-			console.log("DATA TO SEND: " + JSON.stringify(dataToSend, null, 2));
 
 			const data = await response.json();
 
