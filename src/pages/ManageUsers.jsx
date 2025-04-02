@@ -27,6 +27,8 @@ function ManageUsers() {
     const [usersData, setUsersData] = useState(null);
     const [tempUsersData, setTempUsersData] = useState(null);
     const [profileData, setProfileData] = useState(null);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [messageErrorLoading, setMessageErrorLoading] = useState("");
     const [errorTimeout, setErrorTimeout] = useState(false);
     const TIMEOUT = 6000;
@@ -67,8 +69,7 @@ function ManageUsers() {
         return `${day}/${month}/${year}, ${hour}:${minute}`;
     };
 
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(true);
+
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -81,8 +82,6 @@ function ManageUsers() {
                 }
             } catch (err) {
                 setError('Errore nel caricamento dei dati utente.');
-            } finally {
-                setLoading(false);
             }
         };
 
@@ -94,6 +93,7 @@ function ManageUsers() {
 
         const fetchAllData = async () => {
             try {
+                setLoading(true);
                 const data = await fetchData('getUsersData');
                 if (!data) {
                     navigate('/');
@@ -102,6 +102,7 @@ function ManageUsers() {
                     setTempUsersData(data);
                 }
             } catch (err) {
+                setLoading(false);
                 setError('Errore nel caricamento dei dati degli utenti.');
             } finally {
                 setLoading(false);
@@ -151,6 +152,24 @@ function ManageUsers() {
         setUsersData(filteredUsersData);
 
     }, [selectedRole, textSearchInput, valueDistance, tempUsersData]);
+
+    usersData?.forEach((el) => {
+        if (typeof el.activities === 'string') {
+            try {
+                el.activities = JSON.parse(el.activities);
+            } catch (error) {
+                //console.error("Errore nel parsing di activities:", error);
+            }
+        }
+
+        if (Array.isArray(el.activities)) {
+            el.activities = el.activities.join(', ');
+        }
+
+        if (el.ripetizioni !== undefined && el.ripetizioni !== null) {
+            el.ripetizioni = el.ripetizioni ? "Sì" : "No";
+        }
+    });
 
     if (loading) {
         return (
@@ -236,7 +255,7 @@ function ManageUsers() {
 
                         </SearchComponent>
 
-                        <TableDataComponent tableData={usersData} columns={columnsTable} rowIdField="email"/>
+                        <TableDataComponent tableData={usersData} columns={columnsTable} rowIdField="email" />
                     </Box>
                 )}
             </DashboardLayout>

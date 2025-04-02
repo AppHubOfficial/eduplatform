@@ -21,14 +21,11 @@ function ManageUsers() {
     const navigate = useNavigate();
 
     const [textSearchInput, setTextSearchInput] = useState("");
-    const [valueDistance, setValueDistance] = useState([0, 100]);
     const [cogestioneData, setCogestioneData] = useState(null);
     const [tempUsersData, setTempUsersData] = useState(null);
     const [profileData, setProfileData] = useState(null);
-    const [messageErrorLoading, setMessageErrorLoading] = useState("");
-    const [errorTimeout, setErrorTimeout] = useState(false);
-    const TIMEOUT = 6000;
-
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
     const classi = [
         "1AE", "1AI", "1AM", "1AS", "1BI", "1BMT",
         "2AET", "2AI", "2AM", "2AS",
@@ -41,7 +38,7 @@ function ManageUsers() {
     const handleChange = (e) => {
         const { value } = e.target;
         setClasseSel(value);
-      };
+    };
 
     const handleSearchInput = (event) => {
         setTextSearchInput(event.target.value);
@@ -83,8 +80,7 @@ function ManageUsers() {
         return `${day}/${month}/${year}, ${hour}:${minute}`;
     };
 
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(true);
+
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -97,8 +93,6 @@ function ManageUsers() {
                 }
             } catch (err) {
                 setError('Errore nel caricamento dei dati utente.');
-            } finally {
-                setLoading(false);
             }
         };
 
@@ -110,6 +104,7 @@ function ManageUsers() {
 
         const fetchAllData = async () => {
             try {
+                setLoading(true);
                 const data = await fetchData('getDataCogestione');
                 if (!data) {
                     navigate('/');
@@ -119,6 +114,7 @@ function ManageUsers() {
                     console.log(data)
                 }
             } catch (err) {
+                setLoading(false);
                 setError('Errore nel caricamento dei dati degli utenti.');
             } finally {
                 setLoading(false);
@@ -178,7 +174,7 @@ function ManageUsers() {
     return (
         <Box>
             <DashboardLayout>
-                {cogestioneData && profileData[0].role === "insegnante" && (
+                {profileData[0].role === "insegnante" && (
                     <Box>
                         <SearchComponent>
                             <TextField
