@@ -98,6 +98,9 @@ function ManageUsers() {
                 if (!data) {
                     navigate('/');
                 } else {
+                    data.forEach((el) => {
+                        el.ripetizioni = el.ripetizioni ? "Si" : "No"
+                    })
                     setUsersData(data);
                     setTempUsersData(data);
                 }
@@ -166,9 +169,6 @@ function ManageUsers() {
             el.activities = el.activities.join(', ');
         }
 
-        if (el.ripetizioni !== undefined && el.ripetizioni !== null) {
-            el.ripetizioni = el.ripetizioni ? "Sì" : "No";
-        }
     });
 
     if (loading) {

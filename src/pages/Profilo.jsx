@@ -78,12 +78,13 @@ function Profilo() {
     const handleSubmitUpdate = async (e) => {
         e.preventDefault();
 
-        const regex = /^\d+(\.\d+)?$/;
-        if (regex.test(formData.tel) && formData.tel.length !== 10) {
-            setErrorTimeout(true)
-            setErrorMessage("Numero di telefono non valido")
+        const regex = /^\d{10}$/;
+        if (!regex.test(formData.tel)) {
+            setErrorTimeout(true);
+            setErrorMessage("Numero di telefono non valido");
             return;
         }
+
 
         try {
             const response = await fetch(`${apiUrl}/api/users/editProfileData`, {
@@ -98,10 +99,11 @@ function Profilo() {
             if (response.ok) {
                 //const data = await response.json();
                 //setProfileData(data);
+                setErrorMessage("");
                 setOpenPopup(true)
 
             } else {
-                setErrorMessage("Errore durante aggiornamento profilo")
+                setErrorMessage("Errore durante aggiornamento profilo");
                 setErrorTimeout(true)
                 console.error(`Errore nell'aggiornamento del profilo: ${response.status}`);
             }

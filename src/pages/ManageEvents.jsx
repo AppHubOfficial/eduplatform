@@ -27,6 +27,7 @@ function ManageUsers() {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const classi = [
+        "Tutte",
         "1AE", "1AI", "1AM", "1AS", "1BI", "1BMT",
         "2AET", "2AI", "2AM", "2AS",
         "3AET", "3AI", "3AM", "3AS", "3BI",
@@ -48,6 +49,7 @@ function ManageUsers() {
         { field: 'nome', headerName: 'Nome', width: 130 },
         { field: 'cognome', headerName: 'Cognome', width: 130 },
         { field: 'classe', headerName: 'Classe', width: 130 },
+
         { field: 'm1', headerName: 'Mercoledì 1° modulo', width: 150 },
         { field: 'm2', headerName: 'Mercoledì 2° modulo', width: 150 },
         { field: 'm3', headerName: 'Mercoledì 3° modulo', width: 150 },
@@ -56,19 +58,22 @@ function ManageUsers() {
         { field: 'g2', headerName: 'Giovedì 2° modulo', width: 150 },
         { field: 'g3', headerName: 'Giovedì 3° modulo', width: 150 },
 
-        { field: 'pomeriggio', headerName: 'Pomeriggio', width: 130 },
-        { field: 'mangioScuola', headerName: 'Mangio a Scuola', width: 130 },
+        { field: 'attivita_pomeriggio', headerName: 'Pomeriggio', width: 130 },
+        { field: 'mangio_scuola', headerName: 'Mangio a Scuola', width: 130 },
 
         {
             field: 'created_at',
             headerName: 'Creato il giorno',
             width: 160,
-            valueGetter: (params) => {
-                if (!params.value) return '';
-                return formatDate(params.value);
+            valueGetter: (value) => {
+                if (!value) {
+                    return value;
+                }
+                return formatDate(value);
             },
         },
     ];
+
 
     function formatDate(dateString) {
         const regex = /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/;
@@ -109,6 +114,9 @@ function ManageUsers() {
                 if (!data) {
                     navigate('/');
                 } else {
+                    data.forEach((el) => {
+                        el.mangio_scuola = el.mangio_scuola ? "Si" : "No"
+                    })
                     setCogestioneData(data);
                     setTempUsersData(data);
                     console.log(data)
@@ -136,12 +144,8 @@ function ManageUsers() {
             });
         }
 
-        if (classeSel !== "") {
-            filteredUsersData = filteredUsersData.filter(user => {
-                return (
-                    user.classe.includes(classeSel)
-                );
-            });
+        if (classeSel !== "Tutte" && classeSel !== "") {
+            filteredUsersData = filteredUsersData.filter(user => user.classe.includes(classeSel));
         }
 
         setCogestioneData(filteredUsersData);
@@ -201,7 +205,7 @@ function ManageUsers() {
                                     name="classe"
                                     onChange={handleChange}
                                     label="Classe"
-                                    sx={{ marginLeft: '10px', width: '80px', height: '40px' }}
+                                    sx={{ marginLeft: '10px', width: '100px', height: '40px' }}
                                 >
                                     {classi.map((classeVal, index) => (
                                         <MenuItem key={index} value={classeVal}>
