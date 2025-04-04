@@ -293,7 +293,7 @@ export default function PrenotazioneCogestione() {
                     width: '80%',
                     maxWidth: 400,
                     mx: 'auto',
-                    mt: { xs: '-35vh', sm: '-40vh' },
+                    mt: { xs: '-43vh', sm: '-40vh' },
                     mb: 10,
                     p: 3,
                     boxShadow: '0px 7px 14px rgba(0, 0, 0, 0.1)',
