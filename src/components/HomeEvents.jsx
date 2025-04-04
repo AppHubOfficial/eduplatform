@@ -23,7 +23,6 @@ function HomeEvents() {
                 margin: '0 auto',
                 boxShadow: '0px 7px 9px rgba(0,0,0,0.1)',
                 textAlign: 'center',
-                height: '45vh',
                 maxWidth: '900px'
             }}
         >
