@@ -3,17 +3,20 @@ import {
     TextField,
     MenuItem,
     FormControlLabel,
-    Checkbox,
+    radio,
     Button,
     FormControl,
     InputLabel,
     Select,
     Typography,
-    Box,
     Modal,
     CircularProgress,
     Popover,
-    IconButton
+    IconButton,
+    FormLabel,
+    Radio,
+    RadioGroup,
+    Box,
 } from "@mui/material";
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
@@ -66,7 +69,7 @@ export default function PrenotazioneCogestione() {
         g2: "",
         g3: "",
         pomeriggio: "",
-        mangioScuola: false,
+        mangioScuola: "",
     });
 
     const [disabledFields, setDisabledFields] = useState({
@@ -98,7 +101,7 @@ export default function PrenotazioneCogestione() {
         { label: `${["3", "4", "5"].includes(formData.classe.charAt(0)) ? "Giovedì" : "Mercoledì"} pomeriggio`, type: 'label' },
         { label: 'Modulo Pomeriggio', name: 'pomeriggio', ora: 'pomeriggio', type: 'selectAttivita', required: true },
 
-        { label: 'Mangio a scuola (1€)', name: 'mangio_scuola', type: 'checkbox', required: false },
+        { label: 'Mangio a scuola (1€):', name: 'mangioScuola', type: 'radio', required: true },
     ];
 
 
@@ -111,8 +114,8 @@ export default function PrenotazioneCogestione() {
         { name: "basket", label: "Basket", descr: "Partita di basket all'aperto con squadre organizzate prima dell'evento.", ora: ["merc_mattina", "giov_mattina", "pomeriggio"] },
         { name: "pallavolo", label: "Pallavolo", descr: "Gioco di pallavolo all'aperto con squadre predefinite.", ora: ["merc_mattina", "giov_mattina", "pomeriggio"] },
         { name: "ping_pong", label: "Ping Pong", descr: "Torneo di ping pong in aula attrezzata.", ora: ["merc_mattina", "giov_mattina", "pomeriggio"] },
-        { name: "cucina", label: "Cucina", descr: "Affiancamento al professor Casalegno nella preparazione della pasta per gli studenti.", ora: ["merc_mattina"] },
-        { name: "cucina_etnica", label: "Cucina Etnica (1€ ad assaggio)", descr: "Fiera gastronomica con piatti da tutto il mondo preparati da famiglie e docenti.", ora: ["merc_mattina", "giov_mattina", "pomeriggio"] },
+        { name: "cucina", label: "Cucina", descr: "Affiancamento al professor Casalegno nella preparazione della pasta per gli studenti.", ora: ["giov_mattina"] },
+        { name: "cucina_etnica", label: "Cucina Etnica (1€ ad assaggio)", descr: "Fiera gastronomica con piatti da tutto il mondo preparati da famiglie e docenti.", ora: ["giov_mattina", "pomeriggio"] },
         { name: "make_up", label: "Make-up", descr: "Sessione di confronto sulle tecniche di trucco tra studenti e studentesse.", ora: ["merc_mattina", "giov_mattina", "pomeriggio"] },
         { name: "croce_rossa", label: "Croce Rossa", descr: "Due corsi della Croce Rossa: malattie sessualmente trasmissibili e rischi della guida irresponsabile.", ora: ["merc_mattina", "giov_mattina", "pomeriggio"] },
         { name: "forze_dell_ordine", label: "Forze dell'Ordine", descr: "Incontro informativo sulle carriere nelle forze dell'ordine.", ora: ["merc_mattina", "giov_mattina", "pomeriggio"] },
@@ -146,10 +149,10 @@ export default function PrenotazioneCogestione() {
     const handleChange = (e) => {
         const { name, type, checked, value } = e.target;
 
-        if (type === "checkbox") {
+        if (type === "radio") {
             setFormData((prev) => ({
                 ...prev,
-                [name]: checked,
+                [name]: value === "true" ? true : value === "false" ? false : value,
             }));
             return;
         }
@@ -242,40 +245,13 @@ export default function PrenotazioneCogestione() {
                 }))
                 return;
             }
-        } else {
-
-            if ((disabledFields.m2Disabled == true) && name.startsWith("m")) {
-                setDisabledFields((prev) => ({
-                    ...prev,
-                    m2Disabled: false,
-                    m3Disabled: false,
-                }))
-                setFormData((prev) => ({
-                    ...prev,
-                    m2: "",
-                    m3: "",
-                }))
-            }
-
-
-            if (disabledFields.g2Disabled == true && name.startsWith("g")) {
-                setDisabledFields((prev) => ({
-                    ...prev,
-                    g2Disabled: false,
-                    g3Disabled: false,
-                }))
-                setFormData((prev) => ({
-                    ...prev,
-                    g2: "",
-                    g3: "",
-                }))
-            }
-
         }
+
+        const parsedValue = value === "true" ? true : value === "false" ? false : value;
 
         setFormData((prev) => ({
             ...prev,
-            [name]: value,
+            [name]: parsedValue,
         }));
 
     };
@@ -303,7 +279,11 @@ export default function PrenotazioneCogestione() {
         //     return;
         // }
 
-
+        if (formData['mangioScuola'] === "" || formData['mangioScuola'] === undefined) {
+            setIsLoading(false);
+            setErrorMessage('Campo Mangio scuola non compilato');
+            return;
+        }
 
         try {
             const response = await fetch(`${apiUrl}/api/users/saveDataCogestione`, {
@@ -455,13 +435,33 @@ export default function PrenotazioneCogestione() {
                                         <InputLabel key={`label-${index}`}>{field.label}</InputLabel>
                                     );
 
-                                case 'checkbox':
+                                case 'radio':
                                     return (
-                                        <FormControlLabel
-                                            key={`checkbox-${index}`}
-                                            control={<Checkbox checked={formData.mangioScuola} name="mangioScuola" onChange={handleChange} />}
-                                            label="Mangio a scuola (2€)"
-                                        />
+                                        // <FormControlLabel
+                                        //     key={`radio-${index}`}
+                                        //     control={<radio checked={formData.mangioScuola} name="mangioScuola" onChange={handleChange} />}
+                                        //     label="Mangio a scuola (2€)"
+                                        // />
+
+                                        <FormControl fullWidth margin="normal" key={`formcontrol-${index}`}>
+                                            <Box display="flex" alignItems="center" gap={3}>
+                                                <Typography variant="body1" sx={{ mr: 1 }}>
+                                                    {field.label}
+                                                </Typography>
+
+                                                <RadioGroup
+                                                    row
+                                                    name={field.name}
+                                                    value={formData[field.name] ?? ""}
+                                                    onChange={handleChange}
+                                                    required
+                                                >
+                                                    <FormControlLabel value="true" control={<Radio />} label="Sì" />
+                                                    <FormControlLabel value="false" control={<Radio />} label="No" />
+                                                </RadioGroup>
+                                            </Box>
+                                        </FormControl>
+
                                     );
 
                                 default:
