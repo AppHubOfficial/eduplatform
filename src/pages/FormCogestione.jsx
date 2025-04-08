@@ -20,6 +20,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import backgroundCogestione from '../assets/images/sport.jpg';
 
+import fetchData from '../scripts/fetchData';
+
 const apiUrl = process.env.REACT_APP_API_URL;
 
 const styleModal = {
@@ -102,6 +104,7 @@ export default function PrenotazioneCogestione() {
 
 
     const selectFields = [
+        { name: "assente", label: "Assente (tutta la mattina)", descr: "Non sarò presente.", ora: ["merc_mattina", "giov_mattina", "pomeriggio"] },
         { name: "calcio_tutta_la_mattina", label: "Calcio (tutta la mattina)", descr: "Partita di calcio all'aperto. Le squadre verranno formate in anticipo.", ora: ["merc_mattina", "giov_mattina"] },
         { name: "calcio_non_torneo", label: "Calcio (Non torneo)", descr: "Partita di calcio amatoriale senza torneo, squadre organizzate prima.", ora: ["pomeriggio"] },
         { name: "basket", label: "Basket", descr: "Partita di basket all'aperto con squadre organizzate prima dell'evento.", ora: ["merc_mattina", "giov_mattina", "pomeriggio"] },
@@ -209,6 +212,66 @@ export default function PrenotazioneCogestione() {
 
         }
 
+
+        if (value === "Assente (tutta la mattina)") {
+            if (["m1", "m2", "m3"].includes(name)) {
+                setFormData((prev) => ({
+                    ...prev,
+                    m1: "Assente (tutta la mattina)",
+                    m2: "Assente (tutta la mattina)",
+                    m3: "Assente (tutta la mattina)",
+                }));
+                setDisabledFields((prev) => ({
+                    ...prev,
+                    m2Disabled: true,
+                    m3Disabled: true
+                }))
+                return;
+            } else if (["g1", "g2", "g3"].includes(name)) {
+                setFormData((prev) => ({
+                    ...prev,
+                    g1: "Assente (tutta la mattina)",
+                    g2: "Assente (tutta la mattina)",
+                    g3: "Assente (tutta la mattina)",
+                }));
+                setDisabledFields((prev) => ({
+                    ...prev,
+                    g2Disabled: true,
+                    g3Disabled: true
+                }))
+                return;
+            }
+        } else {
+
+            if ((disabledFields.m2Disabled == true) && name.startsWith("m")) {
+                setDisabledFields((prev) => ({
+                    ...prev,
+                    m2Disabled: false,
+                    m3Disabled: false,
+                }))
+                setFormData((prev) => ({
+                    ...prev,
+                    m2: "",
+                    m3: "",
+                }))
+            }
+
+
+            if (disabledFields.g2Disabled == true && name.startsWith("g")) {
+                setDisabledFields((prev) => ({
+                    ...prev,
+                    g2Disabled: false,
+                    g3Disabled: false,
+                }))
+                setFormData((prev) => ({
+                    ...prev,
+                    g2: "",
+                    g3: "",
+                }))
+            }
+
+        }
+
         setFormData((prev) => ({
             ...prev,
             [name]: value,
@@ -220,6 +283,8 @@ export default function PrenotazioneCogestione() {
         setDisableOraDAria(Object.values(formData).includes("Ora d'aria"));
     }, [formData]);
 
+
+
     //////////// handleSubmit ////////////
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -228,6 +293,16 @@ export default function PrenotazioneCogestione() {
         setErrorMessage("");
         setOpen(true);
         setIsLoading(true);
+
+
+        // const cogestioneExData = await fetchData('getDataCogestione');
+        // if (!cogestioneExData) {
+        //     setErrorMessage("Impossibile ottenere i dati utente.");
+        //     setIsLoading(false);
+        //     return;
+        // }
+
+
 
         try {
             const response = await fetch(`${apiUrl}/api/users/saveDataCogestione`, {
