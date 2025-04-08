@@ -117,7 +117,7 @@ function ManageUsers() {
                 } else {
                     data.forEach((el) => {
                         el.mangioScuola = el.mangioScuola ? "Si" : "No"
-                        el.cucinaEtnica = el.cucinaEtnica ? "Si" : "No"
+                        el.cucinaEtnica = el.cucinaEtnica == "true" ? "Si" : "No"
                     })
                     setCogestioneData(data);
                     setTempUsersData(data);
