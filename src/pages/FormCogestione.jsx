@@ -71,6 +71,7 @@ export default function PrenotazioneCogestione() {
         g3: "",
         pomeriggio: "",
         mangioScuola: "",
+        cucinaEtnica: "",
     });
 
     const [disabledFields, setDisabledFields] = useState({
@@ -103,7 +104,8 @@ export default function PrenotazioneCogestione() {
         { label: `${["3", "4", "5"].includes(formData.classe.charAt(0)) ? "Giovedì" : "Mercoledì"} pomeriggio`, type: 'label' },
         { label: 'Modulo Pomeriggio', name: 'pomeriggio', ora: 'pomeriggio', type: 'selectAttivita', required: true },
 
-        { label: 'Mangio a scuola (1€):', name: 'mangioScuola', type: 'radio', required: true },
+        { label: 'Mangio a scuola (2€):', name: 'mangioScuola', type: 'radio', required: true },
+        { label: 'Cucina etnica (1€ ad assaggio):', name: 'cucinaEtnica', type: 'radio', required: true },
     ];
 
 
@@ -116,7 +118,6 @@ export default function PrenotazioneCogestione() {
         { name: "pallavolo", label: "Pallavolo", descr: "Gioco di pallavolo all'aperto con squadre predefinite.", ora: ["m1", "m2", "m3", "g1", "g2", "g3", "pomeriggio"] },
         { name: "ping_pong", label: "Ping Pong", descr: "Torneo di ping pong in aula attrezzata.", ora: ["m1", "m2", "m3", "g1", "g2", "g3", "pomeriggio"] },
         { name: "cucina", label: "Cucina", descr: "Affiancamento al professor Casalegno nella preparazione della pasta per gli studenti.", ora: ["g3", "pomeriggio"] },
-        { name: "cucina_etnica", label: "Cucina Etnica (1€ ad assaggio)", descr: "Fiera gastronomica con piatti da tutto il mondo preparati da famiglie e docenti.", ora: ["g2"] },
         { name: "make_up", label: "Make-up", descr: "Sessione di confronto sulle tecniche di trucco tra studenti e studentesse.", ora: ["m1", "m2", "m3", "g1", "g2", "g3", "pomeriggio"] },
         { name: "croce_rossa", label: "Croce Rossa", descr: "Due corsi della Croce Rossa: malattie sessualmente trasmissibili e rischi della guida irresponsabile.", ora: ["m1", "m2", "m3", "g1", "g2", "g3", "pomeriggio"] },
         { name: "forze_dell_ordine", label: "Forze dell'Ordine", descr: "Incontro informativo sulle carriere nelle forze dell'ordine.", ora: ["m1", "m2", "m3", "g1", "g2", "g3", "pomeriggio"] },
@@ -281,9 +282,24 @@ export default function PrenotazioneCogestione() {
         //     return;
         // }
 
-        if (formData['mangioScuola'] === "" || formData['mangioScuola'] === undefined) {
+        if (formData.mangioScuola === "" || formData.mangioScuola === undefined) {
             setIsLoading(false);
             setErrorMessage('Campo Mangio scuola non compilato');
+            return;
+        }
+
+
+        const moduli = ['m1', 'm2', 'm3', 'g1', 'g2', 'g3', 'pomeriggio'];
+
+        const countStudio = moduli.reduce((acc, key) => {
+            if (formData[key] === 'Aula di Studio') acc += 1;
+            return acc;
+        }, 0);
+
+
+        if (!formData.classe.startsWith("5") && countStudio > 1) {
+            setIsLoading(false);
+            setErrorMessage('Non puoi selezionare Aula studio più di una volta');
             return;
         }
 
@@ -444,7 +460,7 @@ export default function PrenotazioneCogestione() {
                                     return (
 
                                         <FormControl fullWidth margin="normal" key={`formcontrol-${index}`}>
-                                            <Box display="flex" alignItems="center" gap={3}>
+                                            <Box display="flex" alignItems="center" justifyContent="space-between">
                                                 <Typography variant="body1" sx={{ mr: 1 }}>
                                                     {field.label}
                                                 </Typography>
