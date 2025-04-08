@@ -59,7 +59,8 @@ function ManageUsers() {
         { field: 'g3', headerName: 'Giovedì 3° modulo', width: 150 },
 
         { field: 'attivita_pomeriggio', headerName: 'Pomeriggio', width: 130 },
-        { field: 'mangio_scuola', headerName: 'Mangio a Scuola', width: 130 },
+        { field: 'mangioScuola', headerName: 'Mangio a Scuola', width: 130 },
+        { field: 'cucinaEtnica', headerName: 'Cucina etnica', width: 130 },
 
         {
             field: 'created_at',
@@ -115,7 +116,8 @@ function ManageUsers() {
                     navigate('/');
                 } else {
                     data.forEach((el) => {
-                        el.mangio_scuola = el.mangio_scuola ? "Si" : "No"
+                        el.mangioScuola = el.mangioScuola ? "Si" : "No"
+                        el.cucinaEtnica = el.cucinaEtnica ? "Si" : "No"
                     })
                     setCogestioneData(data);
                     setTempUsersData(data);
