@@ -150,6 +150,7 @@ export default function PrenotazioneCogestione() {
 
     const handleChange = (e) => {
         const { name, type, checked, value } = e.target;
+        //console.log("Evento per", name, "->", { type, value });
 
         if (type === "radio") {
             setFormData((prev) => ({
@@ -275,12 +276,27 @@ export default function PrenotazioneCogestione() {
         setIsLoading(true);
 
 
-        // const cogestioneExData = await fetchData('getDataCogestione');
-        // if (!cogestioneExData) {
-        //     setErrorMessage("Impossibile ottenere i dati utente.");
-        //     setIsLoading(false);
-        //     return;
-        // }
+        const cogestioneExData = await fetchData('getDataCogestione');
+        if (!cogestioneExData) {
+            setErrorMessage("Impossibile ottenere i dati utente.");
+            setIsLoading(false);
+            return;
+        }
+
+        const exists = cogestioneExData.some(
+            (el) => el.nome === formData.nome && el.cognome === formData.cognome
+        );
+        if (exists) {
+            setErrorMessage("Utente già registrato con questi dati.");
+            setIsLoading(false);
+            return;
+        }
+
+        if (formData.mangioScuola === "" || formData.mangioScuola === undefined) {
+            setIsLoading(false);
+            setErrorMessage('Campo Mangio scuola non compilato');
+            return;
+        }
 
         if (formData.mangioScuola === "" || formData.mangioScuola === undefined) {
             setIsLoading(false);
