@@ -117,9 +117,9 @@ export default function PrenotazioneCogestione() {
         { name: "basket", label: "Basket", descr: "Partita di basket all'aperto con squadre organizzate prima dell'evento.", ora: ["m1", "m2", "m3", "g1", "g2", "g3", "pomeriggio"] },
         { name: "pallavolo", label: "Pallavolo", descr: "Gioco di pallavolo all'aperto con squadre predefinite.", ora: ["m1", "m2", "m3", "g1", "g2", "g3", "pomeriggio"] },
         { name: "ping_pong", label: "Ping Pong", descr: "Torneo di ping pong in aula attrezzata.", ora: ["m1", "m2", "m3", "g1", "g2", "g3", "pomeriggio"] },
-        { name: "cucina", label: "Cucina", descr: "Affiancamento al professor Casalegno nella preparazione della pasta per gli studenti.", ora: ["g3", "pomeriggio"] },
+        { name: "cucina", label: "Cucina con Casalegno", descr: "Affiancamento al professor Casalegno nella preparazione della pasta per gli studenti. Dopo pranzo c'è la solita pulizia dell'aula.", ora: ["g3", "pomeriggio"] },
         { name: "make_up", label: "Make-up", descr: "Sessione di confronto sulle tecniche di trucco tra studenti e studentesse.", ora: ["m1", "m2", "m3", "g1", "g2", "g3", "pomeriggio"] },
-        { name: "croce_rossa", label: "Croce Rossa", descr: "Due corsi della Croce Rossa: malattie sessualmente trasmissibili e rischi della guida irresponsabile.", ora: ["m1", "m2", "m3", "g1", "g2", "g3", "pomeriggio"] },
+        { name: "croce_rossa", label: "Croce Rossa", descr: "Due corsi della Croce Rossa: malattie sessualmente trasmissibili e rischi della guida irresponsabile. Serve una liberatoria firmata da un genitore.", ora: ["m1", "m2", "m3", "g1", "g2", "g3", "pomeriggio"] },
         { name: "forze_dell_ordine", label: "Forze dell'Ordine", descr: "Incontro informativo sulle carriere nelle forze dell'ordine.", ora: ["m1", "m2", "m3", "g1", "g2", "g3", "pomeriggio"] },
         { name: "protezione_civile", label: "Protezione Civile", descr: "Dimostrazioni della Protezione Civile sui rischi della zona.", ora: ["m1", "m2", "m3", "g1", "g2", "g3", "pomeriggio"] },
         { name: "programmazione", label: "Programmazione", descr: "Lezione su linguaggi di programmazione extra rispetto al programma ministeriale.", ora: ["g1", "g2", "g3", "pomeriggio"] },
@@ -448,7 +448,8 @@ export default function PrenotazioneCogestione() {
                                                             value={selectField.label}
                                                             disabled={
                                                                 (selectField.label === "Ora d'aria" && disableOraDAria) ||
-                                                                (!formData.classe.startsWith("5") && selectField.label === "Aula di Studio" && disableStudio)
+                                                                (!formData.classe.startsWith("5") && selectField.name === "aula_di_studio" && disableStudio) ||
+                                                                ((formData.classe.startsWith("1") || formData.classe.startsWith("2")) &&  selectField.name === "cucina")
                                                             }
                                                         >
                                                             <Box display="flex" alignItems="center" justifyContent="space-between" width="100%">
