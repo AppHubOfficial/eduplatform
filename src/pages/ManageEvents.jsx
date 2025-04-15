@@ -35,10 +35,41 @@ function ManageUsers() {
         "5AEM", "5AI", "5AS"
     ];
 
+
+    const corsi = [
+        "Tutte",
+        "Assente (tutta la mattina)",
+        "Assente",
+        "Calcio (tutta la mattina)",
+        "Calcio (Non torneo)",
+        "Basket",
+        "Pallavolo",
+        "Ping Pong",
+        "Cucina con Casalegno",
+        "Make-up",
+        "Croce Rossa",
+        "Forze dell'Ordine",
+        "Protezione Civile",
+        "Programmazione",
+        "Cinema",
+        "Anime",
+        "Ballo",
+        "Ludoteca",
+        "Aula di Studio",
+        "Pittura",
+        "Ora d'aria"
+    ];
+
     const [classeSel, setClasseSel] = useState('');
     const handleChange = (e) => {
         const { value } = e.target;
         setClasseSel(value);
+    };
+
+    const [corsoSel, setCorsoSel] = useState('');
+    const handleChangeCorso = (e) => {
+        const { value } = e.target;
+        setCorsoSel(value);
     };
 
     const handleSearchInput = (event) => {
@@ -216,8 +247,23 @@ function ManageUsers() {
                                     ))}
                                 </Select>
                             </Grid>
+
                         </SearchComponent>
                         <TableDataComponent tableData={cogestioneData} columns={columnsTable} rowIdField="id" />
+
+                        {corsi.slice(1).map((corso, index) => {
+                            const filteredByCorso = (cogestioneData || []).filter(user =>
+                                [user.m1, user.m2, user.m3, user.g1, user.g2, user.g3, user.attivita_pomeriggio]
+                                    .some(modulo => modulo === corso)
+                            );
+                            if (filteredByCorso.length === 0) return null;
+                            return (
+                                <Box key={index} mt={4}>
+                                    <h2 style={{marginTop: '70px'}}>{corso}</h2>
+                                    <TableDataComponent tableData={filteredByCorso} columns={columnsTable} rowIdField="id" />
+                                </Box>
+                            );
+                        })}
                     </Box>
                 )}
             </DashboardLayout>
