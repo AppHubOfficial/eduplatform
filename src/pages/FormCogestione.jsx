@@ -117,7 +117,7 @@ export default function PrenotazioneCogestione() {
         { name: "basket", label: "Basket", descr: "Partita di basket all'aperto con squadre organizzate prima dell'evento.", ora: ["m1", "m2", "m3", "g1", "g2", "g3", "pomeriggio"] },
         { name: "pallavolo", label: "Pallavolo", descr: "Gioco di pallavolo all'aperto con squadre predefinite.", ora: ["m1", "m2", "m3", "g1", "g2", "g3", "pomeriggio"] },
         { name: "ping_pong", label: "Ping Pong", descr: "Torneo di ping pong in aula attrezzata.", ora: ["m1", "m2", "m3", "g1", "g2", "g3", "pomeriggio"] },
-        { name: "cucina", label: "Cucina con Casalegno", descr: "Affiancamento al professor Casalegno nella preparazione della pasta per gli studenti. Dopo pranzo c'è la solita pulizia dell'aula.", ora: ["g2", "g3", "pomeriggio"] },
+        { name: "cucina", label: "Cucina con Casalegno", descr: "Affiancamento al professor Casalegno nella preparazione della pasta per gli studenti. Dopo pranzo c'è la solita pulizia dell'aula.", ora: ["g3", "pomeriggio"] },
         { name: "make_up", label: "Make-up", descr: "Sessione di confronto sulle tecniche di trucco tra studenti e studentesse.", ora: ["m1", "m2", "m3", "g1", "g2", "g3", "pomeriggio"] },
         { name: "croce_rossa", label: "Croce Rossa", descr: "Due corsi della Croce Rossa: malattie sessualmente trasmissibili e rischi della guida irresponsabile. Serve una liberatoria firmata da un genitore.", ora: ["m1", "m2", "m3", "g1", "g2", "g3", "pomeriggio"] },
         { name: "forze_dell_ordine", label: "Forze dell'Ordine", descr: "Incontro informativo sulle carriere nelle forze dell'ordine.", ora: ["m1", "m2", "m3", "g1", "g2", "g3", "pomeriggio"] },
