@@ -38,7 +38,7 @@ function TableCorsi({ tableData, rowIdField }) {
         moduli.forEach(modulo => {
             matrix[modulo] = {};
             corsi.forEach(corso => {
-                matrix[modulo][corso] = 0;
+                matrix[modulo][corso] = "-";
             });
         });
 
@@ -131,7 +131,7 @@ function TableCorsi({ tableData, rowIdField }) {
                                             whiteSpace: 'nowrap',
                                         }}
                                     >
-                                        {matrix[modulo][corso] || 0}
+                                        <p style={{width: "300px", overflow: "auto"}}>{matrix[modulo][corso] || "-"}</p>
                                     </TableCell>
                                 ))}
                             </TableRow>
