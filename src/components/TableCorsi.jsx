@@ -38,21 +38,27 @@ function TableCorsi({ tableData, rowIdField }) {
         moduli.forEach(modulo => {
             matrix[modulo] = {};
             corsi.forEach(corso => {
-                matrix[modulo][corso] = "-";
+                matrix[modulo][corso] = "";
             });
         });
+
+        console.log("MATRIX1:", JSON.stringify(matrix, null, 2));
 
         tableData.forEach(student => {
             moduli.forEach(modulo => {
                 const corso = student[modulo];
                 if (corso) {
-                    matrix[modulo][corso] += `${student["nome"]}${student["cognome"]} - `;
+                    matrix[modulo][corso] += `${student["nome"]} ${student["cognome"]} · `;
                 }
             });
         });
 
+        console.log("MATRIX:", JSON.stringify(matrix, null, 2));
+
         return matrix;
     };
+
+
 
     const createMatrixNum = (tableData, moduli, corsi) => {
         const matrixNum = {};
@@ -82,18 +88,18 @@ function TableCorsi({ tableData, rowIdField }) {
     const exportToExcel = () => {
         const formattedData = moduli.map(modulo => {
             const row = { Modulo: modulo.toUpperCase() };
-    
+
             corsi.forEach(corso => {
                 row[corso] = matrix[modulo][corso] || 0;
             });
-    
+
             return row;
         });
-    
+
         const worksheet = XLSX.utils.json_to_sheet(formattedData);
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Modulo-Corso");
-    
+
         const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
         const data = new Blob([excelBuffer], {
             type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -101,11 +107,15 @@ function TableCorsi({ tableData, rowIdField }) {
         saveAs(data, 'tabella_modulo_corso.xlsx');
     };
 
+    useEffect(() => {
+        console.log(matrix);
+    }, [matrix])
+
     return (
         <>
 
             <TableContainer component={Paper} sx={{ marginTop: '50px' }}>
-                <Typography variant="h6" sx={{ padding: 2 }}>Tabella modulo/corso studenti</Typography>
+                <Typography variant="h6" sx={{ padding: 2 }}>Modulo/corso studenti</Typography>
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -131,7 +141,7 @@ function TableCorsi({ tableData, rowIdField }) {
                                             whiteSpace: 'nowrap',
                                         }}
                                     >
-                                        <p style={{width: "300px", overflow: "auto"}}>{matrix[modulo][corso] || "-"}</p>
+                                        <p style={{ width: "180px", overflow: "auto", height: "30px", marginLeft: "10px", marginRight: "10px" }}>{matrix[modulo][corso] || "-"}</p>
                                     </TableCell>
                                 ))}
                             </TableRow>
@@ -147,9 +157,8 @@ function TableCorsi({ tableData, rowIdField }) {
                 </IconButton>
             </TableContainer>
 
-
             <TableContainer component={Paper} sx={{ marginTop: '50px' }}>
-                <Typography variant="h6" sx={{ padding: 2 }}>Tabella modulo/corso numeri</Typography>
+                <Typography variant="h6" sx={{ padding: 2 }}>Numero partecipanti corsi</Typography>
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -173,8 +182,6 @@ function TableCorsi({ tableData, rowIdField }) {
                     </TableBody>
                 </Table>
             </TableContainer>
-
-
 
         </>
 

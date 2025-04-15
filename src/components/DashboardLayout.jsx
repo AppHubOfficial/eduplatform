@@ -23,7 +23,7 @@ const DashboardLayout = ({ children }) => {
         { text: 'Home', icon: <HomeIcon />, path: '/dashboard', role: ["studente", "insegnante"] },
         { text: 'Profilo', icon: <PersonIcon />, path: '/profilo', role: ["studente", "insegnante"] },
         { text: 'Gestione utenti', icon: <PeopleAltIcon />, path: '/manage-users', role: ["insegnante"] },
-        { text: 'Eventi', icon: <EventIcon />, path: '/manage-events', role: ["insegnante"] },
+        { text: 'Cogestione', icon: <EventIcon />, path: '/manage-events', role: ["insegnante"] },
     ];
 
     useEffect(() => {

@@ -258,7 +258,7 @@ function ManageUsers() {
 
                         <TableCorsi tableData={cogestioneData} columns={[]} rowIdField="id"></TableCorsi>
 
-                        {corsi.slice(1).map((corso, index) => {
+                        {/* {corsi.slice(1).map((corso, index) => {
                             const filteredByCorso = (cogestioneData || []).filter(user =>
                                 [user.m1, user.m2, user.m3, user.g1, user.g2, user.g3, user.attivita_pomeriggio]
                                     .some(modulo => modulo === corso)
@@ -270,7 +270,7 @@ function ManageUsers() {
                                     <TableDataComponent tableData={filteredByCorso} columns={columnsTable} corsi={corsi} rowIdField="id" />
                                 </Box>
                             );
-                        })}
+                        })} */}
                     </Box>
                 )}
 
