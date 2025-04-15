@@ -7,7 +7,7 @@ import { saveAs } from 'file-saver';
 
 import { DataGrid } from '@mui/x-data-grid';
 
-function TableDataComponent({ tableData, columns, rowIdField }) {
+function TableDataComponent({ tableData, columns, rowIdField, margintop }) {
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 });
 
     const exportToExcel = () => {
@@ -39,7 +39,7 @@ function TableDataComponent({ tableData, columns, rowIdField }) {
     
     return (
         <>
-            <Box>
+            <Box sx={{ marginTop: margintop }}>
                 <Paper sx={{ height: 500, width: '100%' }}>
                     <DataGrid
                         rows={tableData}
