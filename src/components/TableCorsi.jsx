@@ -8,7 +8,7 @@ import { saveAs } from 'file-saver';
 function TableCorsi({ tableData, rowIdField }) {
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 });
 
-    const moduli = ['m1', 'm2', 'm3', 'g1', 'g2', 'g3'];
+    const moduli = ['m1', 'm2', 'm3', 'g1', 'g2', 'g3',  "attivita_pomeriggio"];
     const corsi = [
         "Assente",
         "Calcio (tutta la mattina)",
