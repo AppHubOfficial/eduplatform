@@ -24,7 +24,7 @@ function TableCorsi({ tableData, rowIdField }) {
         "Ludoteca",
         "Aula di Studio",
         "Pittura",
-        "Scacchi"
+        "Scacchi",
         "Dibattito",
         "Karaoke",
         "Musica",
