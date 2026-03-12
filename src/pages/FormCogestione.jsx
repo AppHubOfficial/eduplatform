@@ -3,7 +3,6 @@ import {
     TextField,
     MenuItem,
     FormControlLabel,
-    radio,
     Button,
     FormControl,
     InputLabel,
@@ -100,7 +99,7 @@ export default function PrenotazioneCogestione() {
         { label: 'Modulo 2 | 10:02 - 11:40', name: 'g2', ora: 'g2', type: 'selectAttivita', required: true },
         { label: 'Modulo 3 | 11:50 - 13:34', name: 'g3', ora: 'g3', type: 'selectAttivita', required: true },
 
-        { label: `${["3", "4", "5"].includes(formData.classe.charAt(0)) ? "Giovedì" : "Venerdì"} pomeriggio`, type: 'label' },
+        //{ label: `${["3", "4", "5"].includes(formData.classe.charAt(0)) ? "Giovedì" : "Venerdì"} pomeriggio`, type: 'label' },
         { label: 'Giovedì mangio a scuola (2€):', name: 'mangioScuola', type: 'radio', required: true },
         { label: 'Cucina etnica Venerdì (1€ ad assaggio):', name: 'cucinaEtnica', type: 'radio', required: true },
     ];
@@ -111,7 +110,7 @@ export default function PrenotazioneCogestione() {
     { name: "pallavolo", label: "Pallavolo", descr: "Gioco di pallavolo all'aperto con squadre predefinite.", ora: ["m1", "m2", "m3", "g1", "g2", "g3"] },
     { name: "basket", label: "Basket", descr: "Partita di basket all'aperto con squadre organizzate sul momento.", ora: ["m1", "m2", "m3", "g1", "g2", "g3"] },
     { name: "ping_pong", label: "Ping Pong", descr: "Torneo di ping pong in aula attrezzata.", ora: ["m1", "m2", "m3", "g1", "g2", "g3"] },
-    { name: "cucina_casalegno", label: "Cucina con Casalegno", descr: "Affiancamento al professor Casalegno nella preparazione della pasta destinata al pranzo.", ora: ["m1", "m2", "m3"] },
+    { name: "cucina", label: "Cucina con Casalegno", descr: "Affiancamento al professor Casalegno nella preparazione della pasta destinata al pranzo.", ora: ["m1", "m2", "m3"] },
     { name: "cucina_etnica", label: "Cucina Etnica", descr: "Esposizione gastronomica con piatti tipici italiani e internazionali, promuovendo scambio culturale.", ora: ["g1", "g2", "g3"] },
     { name: "make_up", label: "Make-up", descr: "Laboratorio pratico dedicato alle tecniche di trucco artistico e quotidiano.", ora: ["m1", "m2", "m3", "g1", "g2", "g3"] },
     { name: "programmazione", label: "Programmazione", descr: "Sperimentazione con codice e tecnologie emergenti non trattate solitamente in classe.", ora: ["m1", "m2", "m3", "g1", "g2", "g3"] },
@@ -285,12 +284,6 @@ export default function PrenotazioneCogestione() {
         if (exists) {
             setErrorMessage("Utente già registrato con questi dati.");
             setIsLoading(false);
-            return;
-        }
-
-        if (formData.mangioScuola === "" || formData.mangioScuola === undefined) {
-            setIsLoading(false);
-            setErrorMessage('Campo Mangio scuola non compilato');
             return;
         }
 
@@ -474,7 +467,7 @@ export default function PrenotazioneCogestione() {
 
                                         <FormControl fullWidth margin="normal" key={`formcontrol-${index}`}>
                                             <Box display="flex" alignItems="center" justifyContent="space-between">
-                                                <Typography variant="body1" sx={{ mr: 1 }}>
+                                                <Typography variant="body1" sx={{ mr: 1, width: "60%" }}>
                                                     {field.label}
                                                 </Typography>
 
@@ -483,6 +476,7 @@ export default function PrenotazioneCogestione() {
                                                     name={field.name}
                                                     value={formData[field.name] ?? ""}
                                                     onChange={handleChange}
+                                                    sx={{ flexWrap: 'nowrap' }}
                                                     required
                                                 >
                                                     <FormControlLabel value="true" control={<Radio />} label="Sì" />
