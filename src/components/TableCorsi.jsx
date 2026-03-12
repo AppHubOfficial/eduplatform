@@ -5,32 +5,18 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typog
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 
+import { selectFields } from '../assets/corsi_cogestione';
+
 function TableCorsi({ tableData, rowIdField }) {
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 });
 
     const moduli = ['m1', 'm2', 'm3', 'g1', 'g2', 'g3'];
-    const corsi = [
-        "Assente (tutta la mattina)",
-        "Calcio (tutta la mattina)",
-        "Basket",
-        "Pallavolo",
-        "Ping Pong",
-        "Cucina con Casalegno",
-        "Cucina Etnica",
-        "Escape Room",
-        "Make-up",
-        "Programmazione",
-        "Cinema/Anime",
-        "Ballo",
-        "Ludoteca",
-        "Aula di Studio",
-        "Pittura e Banksy",
-        "Scacchi",
-        "Dibattito",
-        "Karaoke",
-        "Musica",
-        "Disegno",
-    ];
+
+    let corsi = selectFields.map((field) => {
+        return (
+            field.label
+        );
+    })
 
     const createMatrix = (tableData, moduli, corsi) => {
         const matrix = {};
