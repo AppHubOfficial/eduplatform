@@ -10,7 +10,7 @@ function TableCorsi({ tableData, rowIdField }) {
 
     const moduli = ['m1', 'm2', 'm3', 'g1', 'g2', 'g3'];
     const corsi = [
-        "Assente",
+        "Assente (tutta la mattina)",
         "Calcio (tutta la mattina)",
         "Basket",
         "Pallavolo",
