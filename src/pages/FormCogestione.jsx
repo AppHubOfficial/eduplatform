@@ -106,6 +106,7 @@ export default function PrenotazioneCogestione() {
 
 
     const selectFields = [
+    { name: "assente", label: "Assente (tutta la mattina)", descr: "Assente tutto il giorno", ora: ["m1", "m2", "m3", "g1", "g2", "g3"] },
     { name: "calcio_tutta_la_mattina", label: "Calcio (tutta la mattina)", descr: "Partita di calcio all'aperto. Le squadre verranno formate in anticipo.", ora: ["m1", "m2", "m3", "g1", "g2", "g3"] },
     { name: "pallavolo", label: "Pallavolo", descr: "Gioco di pallavolo all'aperto con squadre predefinite.", ora: ["m1", "m2", "m3", "g1", "g2", "g3"] },
     { name: "basket", label: "Basket", descr: "Partita di basket all'aperto con squadre organizzate sul momento.", ora: ["m1", "m2", "m3", "g1", "g2", "g3"] },
