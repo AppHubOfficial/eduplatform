@@ -122,7 +122,7 @@ export default function PrenotazioneCogestione() {
 
         //{ label: `${["3", "4", "5"].includes(formData.classe.charAt(0)) ? "Giovedì" : "Venerdì"} pomeriggio`, type: 'label' },
         { label: 'Giovedì mangio a scuola (2€):', name: 'mangioScuola', type: 'radio', required: true },
-        { label: 'Cucina etnica Venerdì (1€ ad assaggio):', name: 'cucinaEtnica', type: 'radio', required: true },
+        { label: 'Cucina etnica Venerdì 10:02-11:40 (1€ ad assaggio):', name: 'cucinaEtnica', type: 'radio', required: true },
     ];
 
     //////////////////////////////////////////
