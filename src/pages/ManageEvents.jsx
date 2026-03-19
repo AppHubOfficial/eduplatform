@@ -11,6 +11,7 @@ import TableDataComponent from '../components/TableDataComponent';
 import TableCorsi from '../components/TableCorsi';
 import DrawerMenu from '../components/DrawerMenu';
 import DashboardLayout from '../components/DashboardLayout';
+import { selectFields } from '../assets/corsi_cogestione';
 
 import fetchData from '../scripts/fetchData';
 
@@ -41,29 +42,8 @@ function ManageUsers() {
     ];
 
 
-    const corsi = [
-        "Tutte",
-        "Assente (tutta la mattina)",
-        "Assente",
-        "Calcio (tutta la mattina)",
-        "Calcio (Non torneo)",
-        "Basket",
-        "Pallavolo",
-        "Ping Pong",
-        "Cucina con Casalegno",
-        "Make-up",
-        "Croce Rossa",
-        "Forze dell'Ordine",
-        "Protezione Civile",
-        "Programmazione",
-        "Cinema",
-        "Anime",
-        "Ballo",
-        "Ludoteca",
-        "Aula di Studio",
-        "Pittura",
-        "Ora d'aria"
-    ];
+    let corsi = selectFields.map((field) => field.label);
+   
 
     const [classeSel, setClasseSel] = useState('');
     const handleChange = (e) => {
@@ -94,7 +74,6 @@ function ManageUsers() {
         { field: 'g2', headerName: 'Giovedì 2° modulo', width: 150 },
         { field: 'g3', headerName: 'Giovedì 3° modulo', width: 150 },
 
-        { field: 'attivita_pomeriggio', headerName: 'Pomeriggio', width: 130 },
         { field: 'mangioScuola', headerName: 'Mangio a Scuola', width: 130 },
         { field: 'cucinaEtnica', headerName: 'Cucina etnica', width: 130 },
 
