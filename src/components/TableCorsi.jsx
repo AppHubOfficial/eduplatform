@@ -10,25 +10,29 @@ import { selectFields } from '../assets/corsi_cogestione';
 function TableCorsi({ tableData, rowIdField }) {
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 });
 
+    // Manteniamo i moduli originali per la logica dei dati
     const moduli = ['m1', 'm2', 'm3', 'g1', 'g2', 'g3'];
 
-    let corsi = selectFields.map((field) => {
-        return (
-            field.label
-        );
-    })
+    // Definiamo una mappatura per la stampa (Label personalizzate)
+    const moduliLabels = {
+        'm1': 'G1',
+        'm2': 'G2',
+        'm3': 'G3',
+        'g1': 'V1',
+        'g2': 'V2',
+        'g3': 'V3'
+    };
+
+    let corsi = selectFields.map((field) => field.label);
 
     const createMatrix = (tableData, moduli, corsi) => {
         const matrix = {};
-
         moduli.forEach(modulo => {
             matrix[modulo] = {};
             corsi.forEach(corso => {
                 matrix[modulo][corso] = "";
             });
         });
-
-        console.log("MATRIX1:", JSON.stringify(matrix, null, 2));
 
         tableData.forEach(student => {
             moduli.forEach(modulo => {
@@ -38,17 +42,11 @@ function TableCorsi({ tableData, rowIdField }) {
                 }
             });
         });
-
-        console.log("MATRIX:", JSON.stringify(matrix, null, 2));
-
         return matrix;
     };
 
-
-
     const createMatrixNum = (tableData, moduli, corsi) => {
         const matrixNum = {};
-
         moduli.forEach(modulo => {
             matrixNum[modulo] = {};
             corsi.forEach(corso => {
@@ -64,7 +62,6 @@ function TableCorsi({ tableData, rowIdField }) {
                 }
             });
         });
-
         return matrixNum;
     };
 
@@ -73,7 +70,8 @@ function TableCorsi({ tableData, rowIdField }) {
 
     const exportToExcel = () => {
         const formattedData = moduli.map(modulo => {
-            const row = { Modulo: modulo.toUpperCase() };
+            // Usiamo moduliLabels[modulo] per la colonna Excel, mantenendo modulo per pescare i dati da matrix
+            const row = { Modulo: moduliLabels[modulo] || modulo.toUpperCase() };
 
             corsi.forEach(corso => {
                 row[corso] = matrix[modulo][corso] || 0;
@@ -93,13 +91,8 @@ function TableCorsi({ tableData, rowIdField }) {
         saveAs(data, 'tabella_modulo_corso.xlsx');
     };
 
-    useEffect(() => {
-        console.log(matrix);
-    }, [matrix])
-
     return (
         <>
-
             <TableContainer component={Paper} sx={{ marginTop: '50px' }}>
                 <Typography variant="h6" sx={{ padding: 2 }}>Modulo/corso studenti</Typography>
                 <Table>
@@ -114,7 +107,8 @@ function TableCorsi({ tableData, rowIdField }) {
                     <TableBody>
                         {moduli.map(modulo => (
                             <TableRow key={modulo}>
-                                <TableCell>{modulo.toUpperCase()}</TableCell>
+                                {/* Qui visualizziamo G1, G2... invece di m1, m2... */}
+                                <TableCell>{moduliLabels[modulo] || modulo.toUpperCase()}</TableCell>
                                 {corsi.map(corso => (
                                     <TableCell key={corso} align="center"
                                         sx={{
@@ -134,11 +128,7 @@ function TableCorsi({ tableData, rowIdField }) {
                         ))}
                     </TableBody>
                 </Table>
-                <IconButton
-                    onClick={exportToExcel}
-                    sx={{ marginTop: '0px' }}
-                    aria-label="Scarica Excel"
-                >
+                <IconButton onClick={exportToExcel} sx={{ marginTop: '0px' }} aria-label="Scarica Excel">
                     <DownloadIcon fontSize="large" />
                 </IconButton>
             </TableContainer>
@@ -157,7 +147,8 @@ function TableCorsi({ tableData, rowIdField }) {
                     <TableBody>
                         {moduli.map(modulo => (
                             <TableRow key={modulo}>
-                                <TableCell>{modulo.toUpperCase()}</TableCell>
+                                {/* Anche qui visualizziamo le nuove label */}
+                                <TableCell>{moduliLabels[modulo] || modulo.toUpperCase()}</TableCell>
                                 {corsi.map(corso => (
                                     <TableCell key={corso} align="center">
                                         {matrixNum[modulo][corso] || 0}
@@ -168,9 +159,7 @@ function TableCorsi({ tableData, rowIdField }) {
                     </TableBody>
                 </Table>
             </TableContainer>
-
         </>
-
     );
 }
 
