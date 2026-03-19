@@ -18,5 +18,7 @@ export const selectFields = [
     { name: "scacchi", label: "Scacchi", descr: "Area dedicata alla strategia, dai principianti ai tornei, per stimolare logica e concentrazione.", ora: ["m1", "m2", "m3", "g1", "g2", "g3"] },
     { name: "disegno", label: "Disegno", descr: "Corso di disegno a mano libera su character design e sperimentazione creativa.", ora: ["m1", "m2", "m3", "g1", "g2", "g3"] },
     { name: "musica", label: "Musica", descr: "Spazio per suonare in gruppo, fare pratica con strumenti e imparare attraverso l'esperienza diretta.", ora: ["m1", "m2", "m3", "g1", "g2", "g3"] },
-    { name: "karaoke", label: "Karaoke", descr: "Momento di aggregazione canora, esibizioni singole o di gruppo su successi e classici.", ora: ["m1", "m2", "m3", "g1", "g2", "g3"] }
+    { name: "karaoke", label: "Karaoke", descr: "Momento di aggregazione canora, esibizioni singole o di gruppo su successi e classici.", ora: ["m1", "m2", "m3", "g1", "g2", "g3"] },
+    { name: "lavori_socialmente_utili", label: "Lavori Socialmente Utili (Tutti i giorni)", descr: "Attività da selezionare per chi è stato informato che non farà la cogestione.", ora: ["m1", "m2", "m3", "g1", "g2", "g3"] }
+
 ];

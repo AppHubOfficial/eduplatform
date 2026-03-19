@@ -53,10 +53,10 @@ export default function PrenotazioneCogestione() {
     const popoverId = openPopover ? 'simple-popover' : undefined;
 
     const classi = [
-        "1AE", "1AI", "1AM", "1AS", "1BI", "1BMT",
-        "2AET", "2AI", "2AM", "2AS",
-        "3AET", "3AI", "3AM", "3AS", "3BI",
-        "4AE", "4AI", "4AM", "4AS",
+        "1AEM", "1AI", "1AM", "1AS", "1AT", "1BI",
+        "2AET", "2AI", "2AM", "2AS", "2BI",
+        "3AET", "3AI", "3AM", "3AS",
+        "4AE", "4AI", "4AM", "4AS", "4BI",
         "5AEM", "5AI", "5AS"
     ];
 
@@ -237,7 +237,84 @@ export default function PrenotazioneCogestione() {
                 }))
                 return;
             }
+        } else {
+
+            if ((disabledFields.m2Disabled == true) && name.startsWith("m")) {
+                setDisabledFields((prev) => ({
+                    ...prev,
+                    m2Disabled: false,
+                    m3Disabled: false,
+                }))
+                setFormData((prev) => ({
+                    ...prev,
+                    m2: "",
+                    m3: "",
+                }))
+            }
+
+
+            if (disabledFields.g2Disabled == true && name.startsWith("g")) {
+                setDisabledFields((prev) => ({
+                    ...prev,
+                    g2Disabled: false,
+                    g3Disabled: false,
+                }))
+                setFormData((prev) => ({
+                    ...prev,
+                    g2: "",
+                    g3: "",
+                }))
+            }
+
         }
+
+        if (value === "Lavori Socialmente Utili (Tutti i giorni)") {
+            if (["m1", "m2", "m3", "g1", "g2", "g3"].includes(name)) {
+                console.log("Attivata selezione Lavori Socialmente Utili per", name);
+                setFormData((prev) => ({
+                    ...prev,
+                    m1: "Lavori Socialmente Utili (Tutti i giorni)",
+                    m2: "Lavori Socialmente Utili (Tutti i giorni)",
+                    m3: "Lavori Socialmente Utili (Tutti i giorni)",
+                    g1: "Lavori Socialmente Utili (Tutti i giorni)",
+                    g2: "Lavori Socialmente Utili (Tutti i giorni)",
+                    g3: "Lavori Socialmente Utili (Tutti i giorni)",
+                }));
+                setDisabledFields((prev) => ({
+                    ...prev,
+                    m2Disabled: true,
+                    m3Disabled: true,
+                    g1Disabled: true,   
+                    g2Disabled: true,
+                    g3Disabled: true,
+                }))
+                return;
+            } 
+        } else {
+
+            if ((disabledFields.m2Disabled == true) && (name.startsWith("m") || name.startsWith("g"))) {
+                setDisabledFields((prev) => ({
+                    ...prev,
+                    m2Disabled: false,
+                    m3Disabled: false,
+                    g1Disabled: false,
+                    g2Disabled: false,
+                    g3Disabled: false,
+
+                }))
+                setFormData((prev) => ({
+                    ...prev,
+                    m2: "",
+                    m3: "",
+                    g1: "",
+                    g2: "",
+                    g3: "",
+                }))
+            }
+
+        }
+
+
 
         const parsedValue = value === "true" ? true : value === "false" ? false : value;
 
@@ -429,11 +506,11 @@ export default function PrenotazioneCogestione() {
                                                         <MenuItem
                                                             key={`${field.name}_${selectField.label}`}
                                                             value={selectField.label}
-                                                            disabled={
-                                                                (selectField.label === "Ora d'aria" && disableOraDAria) ||
-                                                                (!formData.classe.startsWith("5") && selectField.name === "aula_di_studio" && disableStudio) ||
-                                                                ((formData.classe.startsWith("1") || formData.classe.startsWith("2")) && selectField.name === "cucina")
-                                                            }
+                                                            // disabled={
+                                                            //     (selectField.label === "Ora d'aria" && disableOraDAria) ||
+                                                            //     (!formData.classe.startsWith("5") && selectField.name === "aula_di_studio" && disableStudio) ||
+                                                            //     ((formData.classe.startsWith("1") || formData.classe.startsWith("2")) && selectField.name === "cucina")
+                                                            // }
                                                         >
                                                             <Box display="flex" alignItems="center" justifyContent="space-between" width="100%">
                                                                 <span>{selectField.label}</span>
