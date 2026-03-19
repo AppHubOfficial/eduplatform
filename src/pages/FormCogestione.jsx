@@ -85,7 +85,6 @@ export default function PrenotazioneCogestione() {
         g1Disabled: false,
         g2Disabled: false,
         g3Disabled: false,
-        pomeriggioDisabled: false,
     });
 
 
@@ -369,7 +368,7 @@ export default function PrenotazioneCogestione() {
         }
 
 
-        const moduli = ['m1', 'm2', 'm3', 'g1', 'g2', 'g3', 'pomeriggio'];
+        const moduli = ['m1', 'm2', 'm3', 'g1', 'g2', 'g3'];
 
         const countStudio = moduli.reduce((acc, key) => {
             if (formData[key] === 'Aula di Studio') acc += 1;
