@@ -16,10 +16,14 @@ import {
     Radio,
     RadioGroup,
     Box,
+    Paper,
+    Stack,
+    Tooltip,
 } from "@mui/material";
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import backgroundCogestione from '../assets/images/sport.jpg';
 
 import { selectFields } from "../assets/corsi_cogestione";
@@ -87,7 +91,7 @@ export default function PrenotazioneCogestione() {
 
 
 
-    
+
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
     //       CORSI SPOSTATI IN src > assets > corsi_cogestione.js
@@ -284,12 +288,12 @@ export default function PrenotazioneCogestione() {
                     ...prev,
                     m2Disabled: true,
                     m3Disabled: true,
-                    g1Disabled: true,   
+                    g1Disabled: true,
                     g2Disabled: true,
                     g3Disabled: true,
                 }))
                 return;
-            } 
+            }
         } else {
 
             if ((disabledFields.m2Disabled == true) && (name.startsWith("m") || name.startsWith("g"))) {
@@ -408,202 +412,223 @@ export default function PrenotazioneCogestione() {
 
     return (
         <>
-
+            {/* Sfondo Superiore */}
             <Box
                 sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
+                    width: '100%',
+                    height: { xs: '35vh', md: '45vh' },
                     backgroundImage: `url(${backgroundCogestione})`,
-                    height: '45vh',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    zIndex: -1,
                 }}
             />
+
+            {/* Modal di Conferma/Errore */}
             <Modal
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
             >
-                <Box sx={{ ...styleModal, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <Box
+                    sx={{
+                        ...styleModal,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderRadius: 2,
+                        p: 4,
+                        outline: 'none'
+                    }}
+                >
                     {isLoading ? (
-                        <CircularProgress style={{ width: '30px', height: '30px' }} />
+                        <CircularProgress size={40} />
                     ) : (
-                        <Box sx={{ display: "flex", alignItems: "center", gap: 1, color: errorMessage ? "#CC0000" : "#006200" }}>
-                            {errorMessage ? <CloseIcon /> : <CheckIcon fontSize="large" />}
-                            <Typography id="modal-modal-title" variant="h6" component="h2">
-                                {errorMessage || "Il form è stato inviato"}
+                        <Box sx={{ display: "flex", alignItems: "center", gap: 2, color: errorMessage ? "error.main" : "success.main" }}>
+                            {errorMessage ? <CloseIcon fontSize="large" /> : <CheckIcon fontSize="large" />}
+                            <Typography id="modal-modal-title" variant="h6" component="h2" fontWeight="medium">
+                                {errorMessage || "Il form è stato inviato con successo!"}
                             </Typography>
                         </Box>
                     )}
                 </Box>
             </Modal>
 
+            {/* Contenitore Principale del Form */}
             <Box
                 sx={{
-                    width: '80%',
-                    maxWidth: 400,
-                    mx: 'auto',
-                    mt: { xs: '-43vh', sm: '-40vh' },
-                    mb: 10,
-                    p: 3,
-                    boxShadow: '0px 7px 14px rgba(0, 0, 0, 0.1)',
-                    padding: '65px 30px 30px 30px',
-                    backgroundColor: 'white',
-                    color: '#3e3e3e',
-                    borderRadius: '8px'
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'flex-start',
+                    minHeight: '100vh',
+                    pt: { xs: '5vh', md: '5vh' }, // Spinge la card in basso sovrapponendosi allo sfondo
+                    pb: 10,
+                    px: 2,
                 }}
             >
-                <Typography variant="h5" align="center" sx={{ fontWeight: "bold", marginTop: "-20px", marginBottom: "30px" }}>
-                    Prenotazione COGESTIONE
-                </Typography>
-
-                <Box component="form" onSubmit={handleSubmit}>
-                    {formFields
-                        .map((field, index) => {
-
-                            switch (field.type) {
-                                case 'selectClasse':
-                                    return (
-                                        <FormControl fullWidth margin="normal" key={`field.name_${index}`}>
-                                            <InputLabel>{field.label}</InputLabel>
-                                            <Select
-                                                value={formData.classe}
-                                                name="classe"
-                                                onChange={handleChange}
-                                                label="Classe"
-                                                required
-                                            >
-                                                {classi.map((classeVal, index) => (
-                                                    <MenuItem key={index} value={classeVal}>
-                                                        {classeVal}
-                                                    </MenuItem>
-                                                ))}
-                                            </Select>
-                                        </FormControl>
-                                    );
-
-                                case 'selectAttivita':
-                                    return (
-                                        <FormControl fullWidth margin="normal" key={`formcontrol-${index}`}>
-
-                                            <InputLabel id={`act-${index}`}>{field.label}</InputLabel>
-                                            <Select
-                                                labelId={`act-${index}`}
-                                                key={`${field.name}_${field.label}`}
-                                                name={field.name}
-                                                id={`act-${index}`}
-                                                label={field.label}
-                                                value={formData[field.name] || ""}
-                                                onChange={handleChange}
-                                                onOpen={() => setOpenSelect(true)}
-                                                onClose={() => setOpenSelect(false)}
-                                                disabled={disabledFields[field.name + "Disabled"]}
-                                                required
-                                            >
-                                                {selectFields
-                                                    .filter((sel) => sel.ora.includes(field.ora))
-                                                    .map((selectField, i) => (
-                                                        <MenuItem
-                                                            key={`${field.name}_${selectField.label}`}
-                                                            value={selectField.label}
-                                                            // disabled={
-                                                            //     (selectField.label === "Ora d'aria" && disableOraDAria) ||
-                                                            //     (!formData.classe.startsWith("5") && selectField.name === "aula_di_studio" && disableStudio) ||
-                                                            //     ((formData.classe.startsWith("1") || formData.classe.startsWith("2")) && selectField.name === "cucina")
-                                                            // }
-                                                        >
-                                                            <Box display="flex" alignItems="center" justifyContent="space-between" width="100%">
-                                                                <span>{selectField.label}</span>
-                                                                {openSelect && (
-                                                                    <IconButton size="small" onClick={(e) => { e.stopPropagation(); handlePopoverOpen(e, selectField.descr); }}>
-                                                                        <ArrowDropDownIcon fontSize="small" />
-                                                                    </IconButton>
-                                                                )}
-                                                            </Box>
-                                                        </MenuItem>
-                                                    ))}
-                                            </Select>
-
-                                        </FormControl>
-                                    );
-
-
-                                case 'label':
-                                    return (
-                                        <InputLabel key={`label-${index}`}>{field.label}</InputLabel>
-                                    );
-
-                                case 'radio':
-                                    return (
-
-                                        <FormControl fullWidth margin="normal" key={`formcontrol-${index}`}>
-                                            <Box display="flex" alignItems="center" justifyContent="space-between">
-                                                <Typography variant="body1" sx={{ mr: 1, width: "60%" }}>
-                                                    {field.label}
-                                                </Typography>
-
-                                                <RadioGroup
-                                                    row
-                                                    name={field.name}
-                                                    value={formData[field.name] ?? ""}
-                                                    onChange={handleChange}
-                                                    sx={{ flexWrap: 'nowrap' }}
-                                                    required
-                                                >
-                                                    <FormControlLabel value="true" control={<Radio />} label="Sì" />
-                                                    <FormControlLabel value="false" control={<Radio />} label="No" />
-                                                </RadioGroup>
-                                            </Box>
-                                        </FormControl>
-
-                                    );
-
-                                default:
-                                    return (
-                                        <TextField
-                                            key={`input-${index}`}
-                                            value={formData[field.name] || ""}
-                                            onChange={handleChange}
-                                            label={field.label}
-                                            name={field.name}
-                                            variant="outlined"
-                                            fullWidth
-                                            required
-                                            margin="normal"
-                                        />
-
-                                    );
-                            }
-                        })}
-                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
-                        <Button variant="contained" color="primary" type="submit">
-                            Invia
-                        </Button>
-                    </Box>
-                </Box>
-
-
-
-                <Popover
-                    id={popoverId}
-                    open={openPopover}
-                    anchorEl={anchorEl}
-                    onClose={handlePopoverClose}
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'center',
-                    }}
-                    transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'center',
+                <Paper
+                    elevation={6}
+                    sx={{
+                        width: '100%',
+                        maxWidth: 450,
+                        p: { xs: 4, md: 5 },
+                        borderRadius: 3,
+                        backgroundColor: 'background.paper',
+                        color: 'text.primary',
                     }}
                 >
-                    <Typography sx={{ p: 2 }}>{popoverContent}</Typography>
-                </Popover>
+                    <Typography variant="h5" align="center" color="black" gutterBottom sx={{ fontWeight: 800, mb: 4 }}>
+                        Prenotazione COGESTIONE
+                    </Typography>
+
+                    <Box component="form" onSubmit={handleSubmit}>
+                        {/* Stack gestisce automaticamente la spaziatura verticale tra i campi */}
+                        <Stack spacing={3}>
+                            {formFields.map((field, index) => {
+                                switch (field.type) {
+                                    case 'selectClasse':
+                                        return (
+                                            <FormControl fullWidth key={`field.name_${index}`}>
+                                                <InputLabel>{field.label}</InputLabel>
+                                                <Select
+                                                    value={formData.classe || ""}
+                                                    name="classe"
+                                                    onChange={handleChange}
+                                                    label="Classe"
+                                                    required
+                                                >
+                                                    {classi.map((classeVal, idx) => (
+                                                        <MenuItem key={idx} value={classeVal}>
+                                                            {classeVal}
+                                                        </MenuItem>
+                                                    ))}
+                                                </Select>
+                                            </FormControl>
+                                        );
+
+                                    case 'selectAttivita':
+                                        return (
+                                            <FormControl fullWidth key={`formcontrol-${index}`}>
+                                                <InputLabel id={`act-${index}`}>{field.label}</InputLabel>
+                                                <Select
+                                                    labelId={`act-${index}`}
+                                                    name={field.name}
+                                                    id={`act-${index}`}
+                                                    label={field.label}
+                                                    value={formData[field.name] || ""}
+                                                    onChange={handleChange}
+                                                    onOpen={() => setOpenSelect(true)}
+                                                    onClose={() => setOpenSelect(false)}
+                                                    disabled={disabledFields[field.name + "Disabled"]}
+                                                    required
+                                                >
+                                                    {selectFields
+                                                        .filter((sel) => sel.ora.includes(field.ora))
+                                                        .map((selectField) => (
+                                                            <MenuItem
+                                                                key={`${field.name}_${selectField.label}`}
+                                                                value={selectField.label}
+                                                            >
+                                                                <Box display="flex" alignItems="center" justifyContent="space-between" width="100%">
+                                                                    <Typography>{selectField.label}</Typography>
+                                                                    {openSelect && selectField.descr && (
+                                                                        <IconButton
+                                                                            size="small"
+                                                                            color="info"
+                                                                            onClick={(e) => {
+                                                                                e.stopPropagation();
+                                                                                handlePopoverOpen(e, selectField.descr);
+                                                                            }}
+                                                                        >
+                                                                            {/* InfoIcon è molto più intuitiva di ArrowDropDown per una descrizione */}
+                                                                            <InfoOutlinedIcon fontSize="small" />
+                                                                        </IconButton>
+                                                                    )}
+                                                                </Box>
+                                                            </MenuItem>
+                                                        ))}
+                                                </Select>
+                                            </FormControl>
+                                        );
+
+                                    case 'label':
+                                        return (
+                                            <Typography key={`label-${index}`} variant="subtitle1" fontWeight="medium" sx={{ mt: 1 }}>
+                                                {field.label}
+                                            </Typography>
+                                        );
+
+                                    case 'radio':
+                                        return (
+                                            <FormControl fullWidth key={`formcontrol-${index}`}>
+                                                <Box display="flex" alignItems="center" justifyContent="space-between" sx={{ flexWrap: { xs: 'wrap', sm: 'nowrap' } }}>
+                                                    <Typography variant="body1" sx={{ mr: 2, mb: { xs: 1, sm: 0 }, flex: 1 }}>
+                                                        {field.label}
+                                                    </Typography>
+                                                    <RadioGroup
+                                                        row
+                                                        name={field.name}
+                                                        value={formData[field.name] ?? ""}
+                                                        onChange={handleChange}
+                                                        sx={{ flexWrap: 'nowrap' }}
+                                                        required
+                                                    >
+                                                        <FormControlLabel value="true" control={<Radio />} label="Sì" />
+                                                        <FormControlLabel value="false" control={<Radio />} label="No" />
+                                                    </RadioGroup>
+                                                </Box>
+                                            </FormControl>
+                                        );
+
+                                    default:
+                                        return (
+                                            <TextField
+                                                key={`input-${index}`}
+                                                value={formData[field.name] || ""}
+                                                onChange={handleChange}
+                                                label={field.label}
+                                                name={field.name}
+                                                variant="outlined"
+                                                fullWidth
+                                                required
+                                            />
+                                        );
+                                }
+                            })}
+                        </Stack>
+
+                        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 5 }}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                type="submit"
+                                size="large"
+                                sx={{ px: 5, py: 1.5, borderRadius: 2, fontWeight: 'bold' }}
+                            >
+                                Invia Prenotazione
+                            </Button>
+                        </Box>
+                    </Box>
+
+                    {/* Popover Informativo */}
+                    <Popover
+                        id={popoverId}
+                        open={openPopover}
+                        anchorEl={anchorEl}
+                        onClose={handlePopoverClose}
+                        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                        transformOrigin={{ vertical: 'top', horizontal: 'center' }}
+                        PaperProps={{
+                            sx: { p: 2, maxWidth: 300, borderRadius: 2, boxShadow: 3 }
+                        }}
+                    >
+                        <Typography variant="body2">{popoverContent}</Typography>
+                    </Popover>
+                </Paper>
             </Box>
-
-
         </>
-
     );
 }
