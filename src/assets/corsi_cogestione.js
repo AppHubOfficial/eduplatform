@@ -5,7 +5,6 @@ export const selectFields = [
     { name: "basket", label: "Basket", descr: "Partita di basket all'aperto con squadre organizzate sul momento.", ora: ["m1", "m2", "m3", "g1", "g2", "g3"] },
     { name: "ping_pong", label: "Ping Pong", descr: "Torneo di ping pong in aula attrezzata.", ora: ["m1", "m2", "m3", "g1", "g2", "g3"] },
     { name: "cucina", label: "Cucina con Casalegno", descr: "Affiancamento al professor Casalegno nella preparazione della pasta destinata al pranzo.", ora: ["m1", "m2", "m3"] },
-    { name: "cucina_etnica", label: "Cucina Etnica", descr: "Esposizione gastronomica con piatti tipici italiani e internazionali, promuovendo scambio culturale.", ora: ["g1", "g2", "g3"] },
     { name: "make_up", label: "Make-up", descr: "Laboratorio pratico dedicato alle tecniche di trucco artistico e quotidiano.", ora: ["m1", "m2", "m3", "g1", "g2", "g3"] },
     { name: "programmazione", label: "Programmazione", descr: "Sperimentazione con codice e tecnologie emergenti non trattate solitamente in classe.", ora: ["m1", "m2", "m3", "g1", "g2", "g3"] },
     { name: "cinema_anime", label: "Cinema/Anime", descr: "Proiezione di film o serie d'animazione in aula dotata di LIM.", ora: ["m1", "m2", "m3", "g1", "g2", "g3"] },
