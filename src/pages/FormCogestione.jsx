@@ -344,45 +344,38 @@ export default function PrenotazioneCogestione() {
         setOpen(true);
         setIsLoading(true);
 
-
-        const cogestioneExData = await fetchData('getDataCogestione');
-        if (!cogestioneExData) {
-            setErrorMessage("Impossibile ottenere i dati utente.");
-            setIsLoading(false);
-            return;
-        }
-
-        const exists = cogestioneExData.some(
-            (el) => el.nome === formData.nome && el.cognome === formData.cognome
-        );
-        if (exists) {
-            setErrorMessage("Utente già registrato con questi dati.");
-            setIsLoading(false);
-            return;
-        }
-
-        if (formData.mangioScuola === "" || formData.mangioScuola === undefined) {
-            setIsLoading(false);
-            setErrorMessage('Campo Mangio scuola non compilato');
-            return;
-        }
-
-
-        const moduli = ['m1', 'm2', 'm3', 'g1', 'g2', 'g3'];
-
-        const countStudio = moduli.reduce((acc, key) => {
-            if (formData[key] === 'Aula di Studio') acc += 1;
-            return acc;
-        }, 0);
-
-
-        if (!formData.classe.startsWith("5") && countStudio > 1) {
-            setIsLoading(false);
-            setErrorMessage('Non puoi selezionare Aula studio più di una volta');
-            return;
-        }
-
         try {
+            const cogestioneExData = await fetchData('getDataCogestione');
+            if (!cogestioneExData) {
+                setErrorMessage("Impossibile ottenere i dati utente.");
+                return;
+            }
+
+            const exists = cogestioneExData.some(
+                (el) => el.nome === formData.nome && el.cognome === formData.cognome
+            );
+            if (exists) {
+                setErrorMessage("Utente già registrato con questi dati.");
+                return;
+            }
+
+            if (formData.mangioScuola === "" || formData.mangioScuola === undefined) {
+                setErrorMessage('Campo Mangio scuola non compilato');
+                return;
+            }
+
+            const moduli = ['m1', 'm2', 'm3', 'g1', 'g2', 'g3'];
+
+            const countStudio = moduli.reduce((acc, key) => {
+                if (formData[key] === 'Aula di Studio') acc += 1;
+                return acc;
+            }, 0);
+
+            if (!formData.classe.startsWith("5") && countStudio > 1) {
+                setErrorMessage('Non puoi selezionare Aula studio più di una volta');
+                return;
+            }
+
             const response = await fetch(`${apiUrl}/api/users/saveDataCogestione`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -393,7 +386,7 @@ export default function PrenotazioneCogestione() {
             const data = await response.json();
 
             if (response.ok) {
-                setIsLoading(false);
+                setErrorMessage("");
             } else {
                 console.log(data.error);
                 setErrorMessage(data.error || 'Problema di rete');
@@ -605,6 +598,7 @@ export default function PrenotazioneCogestione() {
                                 color="primary"
                                 type="submit"
                                 size="large"
+                                disabled={isLoading}
                                 sx={{ px: 5, py: 1.5, borderRadius: 2, fontWeight: 'bold' }}
                             >
                                 Invia Prenotazione
