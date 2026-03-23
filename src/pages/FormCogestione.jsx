@@ -28,8 +28,6 @@ import backgroundCogestione from '../assets/images/sport.jpg';
 
 import { selectFields } from "../assets/corsi_cogestione";
 
-import fetchData from '../scripts/fetchData';
-
 const apiUrl = process.env.REACT_APP_API_URL;
 
 const styleModal = {
@@ -345,20 +343,6 @@ export default function PrenotazioneCogestione() {
         setIsLoading(true);
 
         try {
-            const cogestioneExData = await fetchData('getDataCogestione');
-            if (!cogestioneExData) {
-                setErrorMessage("Impossibile ottenere i dati utente.");
-                return;
-            }
-
-            const exists = cogestioneExData.some(
-                (el) => el.nome === formData.nome && el.cognome === formData.cognome
-            );
-            if (exists) {
-                setErrorMessage("Utente già registrato con questi dati.");
-                return;
-            }
-
             if (formData.mangioScuola === "" || formData.mangioScuola === undefined) {
                 setErrorMessage('Campo Mangio scuola non compilato');
                 return;
@@ -379,7 +363,6 @@ export default function PrenotazioneCogestione() {
             const response = await fetch(`${apiUrl}/api/users/saveDataCogestione`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
                 body: JSON.stringify(formData),
             });
 
